@@ -14,6 +14,12 @@
       <version>0.1.55</version>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/axonivy-market/sftp-connector</url>
+    </repository>
+  </distributionManagement>
   <build>
     <plugins>
       <plugin>
