@@ -2,8 +2,6 @@ SftpClientDemoData #class
 com.axonivy.connector.sftp.demo.SftpClientDemo #namespace
 clientHost String #field
 clientHost PERSISTENT #fieldModifier
-clientPassword String #field
-clientPassword PERSISTENT #fieldModifier
 clientPort Number #field
 clientPort PERSISTENT #fieldModifier
 clientUsername String #field

@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 <h:body>
-	<ui:composition template="/layouts/basic-8.xhtml">
+	<ui:composition template="/layouts/frame-8.xhtml">
 		<ui:define name="title">Demo Sftp Client</ui:define>
 		<ui:define name="content">
 			<h3>
@@ -19,26 +19,23 @@
 				<p:outputLabel for="port" value="Client Port"/>
 				<p:inputText id="port" value="#{data.clientPort}" disabled="true"/>
 				
-				<p:outputLabel for="username" value="Client Benutzername"/>
+				<p:outputLabel for="username" value="Client Username"/>
 				<p:inputText id="username" value="#{data.clientUsername}" disabled="true"/>
-				
-				<p:outputLabel for="password" value="Client Passwort"/>
-				<p:inputText id="password" value="#{data.clientPassword}" disabled="true"/>
 			</h:panelGrid>
 			<p:accordionPanel id="mainPanel">
-				<p:tab title="Datei uploaden">
+				<p:tab title="Upload File">
 					<h:form enctype="multipart/form-data" id="uploadForm">
 						<p:messages id="uploadMessages" showDetail="true" />
 						
 						<h:panelGrid columns="2" cellpadding="10">
-							<p:outputLabel for="fileUpload" value="Datei zum uploaden"/>
+							<p:outputLabel for="fileUpload" value="File to Upload"/>
 							<p:fileUpload id="fileUpload" mode="advanced" skinSimple="true" 
 									auto="true" update="@form" process="@form" 
 									fileUploadListener="#{logic.handleFileUpload}" />
 						</h:panelGrid>
 					</h:form>
 				</p:tab>
-				<p:tab title="Datei herunterladen">
+				<p:tab title="Download File">
 					<h:form id="downloadForm">
 						<p:messages id="downloadMessages" showDetail="true" />
 						
@@ -57,7 +54,7 @@
 								<p:column headerText="Size">
 									<h:outputText value="#{file.size} bytes" />
 								</p:column>
-								<p:column headerText="herunterladen">
+								<p:column headerText="Download">
 									<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
 											icon="fa fa-download" styleClass="p-mr-2"
 											update="downloadMessages">

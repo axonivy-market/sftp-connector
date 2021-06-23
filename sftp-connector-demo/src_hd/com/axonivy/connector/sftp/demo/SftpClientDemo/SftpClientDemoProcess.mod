@@ -50,14 +50,13 @@ Ts0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Ts0 f0 115 51 26 26 -16 15 #rect
-Ts0 f1 371 51 26 26 0 12 #rect
+Ts0 f1 467 51 26 26 0 12 #rect
 Ts0 f9 actionTable 'out=in;
 ' #txt
 Ts0 f9 actionCode '
-in.clientHost = ivy.var.com_axonivy_connector_sftp_serverHost;
-in.clientPort = Integer.parseInt(ivy.var.com_axonivy_connector_sftp_serverPort);
-in.clientUsername = ivy.var.com_axonivy_connector_sftp_serverUsername;
-in.clientPassword = ivy.var.com_axonivy_connector_sftp_serverPassword;
+in.clientHost = ivy.var.com_axonivy_connector_sftp_server_host;
+in.clientPort = Integer.parseInt(ivy.var.com_axonivy_connector_sftp_server_port);
+in.clientUsername = ivy.var.com_axonivy_connector_sftp_server_username;
 ' #txt
 Ts0 f9 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
@@ -68,11 +67,11 @@ Ts0 f9 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
     </language>
 </elementInfo>
 ' #txt
-Ts0 f9 200 42 112 44 -8 -8 #rect
+Ts0 f9 264 42 112 44 -8 -8 #rect
 Ts0 f10 expr out #txt
-Ts0 f10 141 64 200 64 #arcP
+Ts0 f10 141 64 264 64 #arcP
 Ts0 f2 expr out #txt
-Ts0 f2 312 64 371 64 #arcP
+Ts0 f2 376 64 467 64 #arcP
 Ts0 f11 guid 162BA2B9BF7640CB #txt
 Ts0 f11 method handleFileUpload(org.primefaces.event.FileUploadEvent) #txt
 Ts0 f11 inParameterDecl '<org.primefaces.event.FileUploadEvent event> param;' #txt

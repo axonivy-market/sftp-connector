@@ -41,6 +41,7 @@ Se0 f0 outParamDecl '<java.io.File toFile> result;' #txt
 Se0 f0 outParamTable 'result.toFile=in.#toFile.getJavaFile();
 ' #txt
 Se0 f0 callSignature downloadFile(String) #txt
+Se0 f0 tags CONNECTOR #txt
 Se0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
@@ -49,6 +50,7 @@ Se0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Se0 f0 81 49 30 30 -45 20 #rect
+Se0 f0 res:/cms/Images/Logo/16E7E3294211A884.png?small #fDecoratorIcon
 Se0 f1 593 49 30 30 0 15 #rect
 Se0 f3 actionTable 'out=in;
 ' #txt
@@ -107,6 +109,7 @@ Se0 f7 outParamDecl '<java.util.List<com.axonivy.connector.sftp.service.SftpClie
 Se0 f7 outParamTable 'result.listFiles=in.listFiles;
 ' #txt
 Se0 f7 callSignature listAllFiles(String) #txt
+Se0 f7 tags CONNECTOR #txt
 Se0 f7 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
@@ -115,6 +118,7 @@ Se0 f7 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </elementInfo>
 ' #txt
 Se0 f7 81 241 30 30 -38 18 #rect
+Se0 f7 res:/cms/Images/Logo/16E7E3294211A884.png?small #fDecoratorIcon
 Se0 f8 593 241 30 30 0 15 #rect
 Se0 f9 actionTable 'out=in;
 ' #txt

@@ -43,17 +43,18 @@ JSch allows you to connect to an sshd server and use port forwarding, X11 forwar
    
    Variables:
 
-     # The host name to the SFTP server.
-     com_axonivy_connector_sftp_serverHost: 'localhost'
+     com.axonivy.connector.sftp.server:
+       # The host name to the SFTP server
+       host: 'localhost'
 
-     # The password to the SFTP server.
-     com_axonivy_connector_sftp_serverPassword: 'pwd'
+       # The password to the SFTP server
+       password: pwd
 
-     # The port number to the SFTP server.
-     com_axonivy_connector_sftp_serverPort: 22
+       # The port number to the SFTP server
+       port: 22
 
-     # The user name to the SFTP server.
-     com_axonivy_connector_sftp_serverUsername: 'usr'
+       # The username to the SFTP server
+       username: 'usr'
 
    ```
 

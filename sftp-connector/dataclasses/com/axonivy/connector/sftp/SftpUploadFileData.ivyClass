@@ -4,3 +4,4 @@ fileToBeUploaded java.io.InputStream #field
 fileName String #field
 sftpClient com.axonivy.connector.sftp.service.SftpClientService #field
 isSuccess Boolean #field
+ivyFile File #field
