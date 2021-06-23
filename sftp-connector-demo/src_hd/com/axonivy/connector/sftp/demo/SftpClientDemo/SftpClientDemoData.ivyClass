@@ -1,0 +1,24 @@
+SftpClientDemoData #class
+com.axonivy.connector.sftp.demo.SftpClientDemo #namespace
+clientHost String #field
+clientHost PERSISTENT #fieldModifier
+clientPassword String #field
+clientPassword PERSISTENT #fieldModifier
+clientPort Number #field
+clientPort PERSISTENT #fieldModifier
+clientUsername String #field
+clientUsername PERSISTENT #fieldModifier
+fileToDownload com.axonivy.connector.sftp.service.SftpClientService.FileData #field
+fileToDownload PERSISTENT #fieldModifier
+isFileUploaded Boolean #field
+isFileUploaded PERSISTENT #fieldModifier
+listRemoteFiles java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData> #field
+listRemoteFiles PERSISTENT #fieldModifier
+remoteFileName String #field
+remoteFileName PERSISTENT #fieldModifier
+streamedContent org.primefaces.model.StreamedContent #field
+streamedContent PERSISTENT #fieldModifier
+toFile java.io.File #field
+toFile PERSISTENT #fieldModifier
+uploadedFile org.primefaces.model.UploadedFile #field
+uploadedFile PERSISTENT #fieldModifier

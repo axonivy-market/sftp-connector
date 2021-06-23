@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:ic="http://ivyteam.ch/jsf/component"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition template="/layouts/basic-8.xhtml">
+		<ui:define name="title">Demo Sftp Client</ui:define>
+		<ui:define name="content">
+			<h3>
+			Demo Sftp Client
+			</h3>
+			<h:panelGrid columns="2" cellpadding="10">
+				<p:outputLabel for="host" value="Client Host"/>
+				<p:inputText id="host" value="#{data.clientHost}" disabled="true"/>
+				
+				<p:outputLabel for="port" value="Client Port"/>
+				<p:inputText id="port" value="#{data.clientPort}" disabled="true"/>
+				
+				<p:outputLabel for="username" value="Client Benutzername"/>
+				<p:inputText id="username" value="#{data.clientUsername}" disabled="true"/>
+				
+				<p:outputLabel for="password" value="Client Passwort"/>
+				<p:inputText id="password" value="#{data.clientPassword}" disabled="true"/>
+			</h:panelGrid>
+			<p:accordionPanel id="mainPanel">
+				<p:tab title="Datei uploaden">
+					<h:form enctype="multipart/form-data" id="uploadForm">
+						<p:messages id="uploadMessages" showDetail="true" />
+						
+						<h:panelGrid columns="2" cellpadding="10">
+							<p:outputLabel for="fileUpload" value="Datei zum uploaden"/>
+							<p:fileUpload id="fileUpload" mode="advanced" skinSimple="true" 
+									auto="true" update="@form" process="@form" 
+									fileUploadListener="#{logic.handleFileUpload}" />
+						</h:panelGrid>
+					</h:form>
+				</p:tab>
+				<p:tab title="Datei herunterladen">
+					<h:form id="downloadForm">
+						<p:messages id="downloadMessages" showDetail="true" />
+						
+						<h:panelGrid columns="1" cellpadding="10">
+							<h:panelGrid columns="2" cellpadding="10">
+								<p:outputLabel value="List of Remote Files" for="listRemoteFiles"/>
+								
+								<p:commandButton value="Refresh" 
+										icon="fa fa-retweet" styleClass="p-mr-2"
+										actionListener="#{logic.listAllFiles}" update="listRemoteFiles" />
+							</h:panelGrid>
+							<p:dataTable id="listRemoteFiles" value="#{data.listRemoteFiles}" var="file">
+								<p:column headerText="Name">
+									<h:outputText value="#{file.name}" />
+								</p:column>
+								<p:column headerText="Size">
+									<h:outputText value="#{file.size} bytes" />
+								</p:column>
+								<p:column headerText="herunterladen">
+									<p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+											icon="fa fa-download" styleClass="p-mr-2"
+											update="downloadMessages">
+										<p:fileDownload value="#{logic.downloadFile(file)}"/>
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						
+						</h:panelGrid>
+					</h:form>
+				</p:tab>
+			</p:accordionPanel>
+			
+			<script type="text/javascript">
+			    //<![CDATA[
+			    function start() {
+			        PF('statusDialog').show();
+			    }
+			
+			    function stop() {
+			        PF('statusDialog').hide();
+			    }
+			    //]]>
+			</script>
+			
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+				<i class="fa fa-spinner fa-spin" style="font-size:2rem"></i>
+			</p:dialog>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

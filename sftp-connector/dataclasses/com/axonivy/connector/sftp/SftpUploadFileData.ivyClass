@@ -1,0 +1,6 @@
+SftpUploadFileData #class
+com.axonivy.connector.sftp #namespace
+fileToBeUploaded java.io.InputStream #field
+fileName String #field
+sftpClient com.axonivy.connector.sftp.service.SftpClientService #field
+isSuccess Boolean #field

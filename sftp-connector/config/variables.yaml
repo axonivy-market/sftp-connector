@@ -1,0 +1,14 @@
+Variables:
+
+  # The host name to the SFTP server.
+  com_axonivy_connector_sftp_serverHost: 'localhost'
+
+  # The password to the SFTP server.
+  com_axonivy_connector_sftp_serverPassword: 'pwd'
+
+  # The port number to the SFTP server.
+  com_axonivy_connector_sftp_serverPort: 22
+
+  # The user name to the SFTP server.
+  com_axonivy_connector_sftp_serverUsername: 'usr'
+
