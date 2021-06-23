@@ -7,41 +7,37 @@ SFTP Connector is based on JSch [http://www.jcraft.com/jsch/] to handle the SFTP
 JSch is a pure Java implementation of SSH2.
 JSch allows you to connect to an sshd server and use port forwarding, X11 forwarding, file transfer, etc., and you can integrate its functionality into your own Java programs. JSch is licensed under BSD style license.
 
+## Operations
 
-## Demo
+1. Upload File
 
-1. Click on **Datei zum uploaden** and select one file from your local directory.
-
-   ![Upload-File](doc/images/Upload-File.PNG)
    Path: Sftp/SftpUploadFile -> uploadFile(fileToBeUploaded, filename)
+
    Description: this operation will upload the file to the root path on the server.
-   Parameters: 	fileToBeUploaded -> the file to upload as java.io.InputStream
-				filename -> the file name as String
 
+   Parameters: 
 
-2. Click on **Refresh** to list all the files on the remote directory.
+               - fileToBeUploaded -> the file to upload as java.io.InputStream
 
-   - Select one file from the list and click on **Download**.
+               - filename -> the file name as String
 
-   ![Download-File](doc/images/Download-File.PNG)
+2. Download File
+
    Path: Sftp/SftpDownloadFile -> downloadFile(remoteFileName) Result: toFile
-   Description: this operation will download the file from the server.
-   Parameters: 	remoteFileName -> the file name as String
-   Result:  		toFile -> the File to download as java.io.File
 
+   Description: this operation will download the file from the server.
+
+   Parameters: 
+
+               - remoteFileName -> the file name as String
+
+   Result: 
+
+               - toFile -> the File to download as java.io.File
 
 ## Setup
 
-Before starting the demo, please make sure to have an SSH/SFTP server on your computer (respective the computer you want to access). For testing, the following “Rebex Tiny SFTP Server (free)” was used.
-Rebex Tiny SFTP Server (free): [https://www.rebex.net/tiny-sftp-server/]
-Small, minimalist, single-user SFTP server for testing purposes, free for commercial and non-commercial use
-1. Open the following settings in “RebexTinySftpServer.exe.config” with a text editor and update the following values:
-    <!-- user credentials and root directory -->
-    <add key="userName" value="usr" />
-    <add key="userPassword" value="pwd" />
-    <add key="userRootDir" value="c:\temp" />
-
-2. Open the `Configuration/variables.yaml` in your Designer and update the following global variables:
+   Open the `Configuration/variables.yaml` in your Designer and update the following global variables:
 
    ```
    
@@ -61,11 +57,7 @@ Small, minimalist, single-user SFTP server for testing purposes, free for commer
 
    ```
 
-4. Save the changed settings.
-
-
 ### Prerequisites:
 
 * Working **SFTP Server**.
 * You will also need the correct Server host name and the port number.
-
