@@ -77,7 +77,7 @@ Se0 f3 424 42 112 44 -27 -8 #rect
 Se0 f2 536 64 593 64 #arcP
 Se0 f5 actionTable 'out=in;
 ' #txt
-Se0 f5 actionCode 'ivy.log.error("uploadFile failed because of to following error: ", error);
+Se0 f5 actionCode 'ivy.log.error("uploadFile failed because of the following error: ", error);
 ' #txt
 Se0 f5 attachedToRef 17A24810A3595EC1-f3 #txt
 Se0 f5 497 81 30 30 0 15 #rect
@@ -170,7 +170,7 @@ Se0 f19 368 256 424 256 #arcP
 Se0 f20 536 256 593 256 #arcP
 Se0 f21 actionTable 'out=in;
 ' #txt
-Se0 f21 actionCode 'ivy.log.error("uploadFile failed because of to following error: ", error);
+Se0 f21 actionCode 'ivy.log.error("uploadFile failed because of the following error: ", error);
 ' #txt
 Se0 f21 attachedToRef 17A24810A3595EC1-f15 #txt
 Se0 f21 497 273 30 30 0 15 #rect

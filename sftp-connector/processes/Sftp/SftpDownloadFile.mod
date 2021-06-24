@@ -94,7 +94,7 @@ Se0 f3 424 42 112 44 -35 -8 #rect
 Se0 f2 536 64 593 64 #arcP
 Se0 f5 actionTable 'out=in;
 ' #txt
-Se0 f5 actionCode 'ivy.log.error("dowloadFile failed because of to following error: ", error);
+Se0 f5 actionCode 'ivy.log.error("dowloadFile failed because of the following error: ", error);
 ' #txt
 Se0 f5 attachedToRef 17A24807C6359438-f3 #txt
 Se0 f5 497 81 30 30 0 15 #rect
@@ -142,7 +142,7 @@ Se0 f9 424 234 112 44 -32 -8 #rect
 Se0 f11 536 256 593 256 #arcP
 Se0 f12 actionTable 'out=in;
 ' #txt
-Se0 f12 actionCode 'ivy.log.error("listAllFiles failed because of to following error: ", error);
+Se0 f12 actionCode 'ivy.log.error("listAllFiles failed because of the following error: ", error);
 ' #txt
 Se0 f12 attachedToRef 17A24807C6359438-f9 #txt
 Se0 f12 497 273 30 30 0 15 #rect

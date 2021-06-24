@@ -70,7 +70,7 @@ Sr0 f4 111 64 168 64 #arcP
 Sr0 f2 280 64 337 64 #arcP
 Sr0 f5 actionTable 'out=in;
 ' #txt
-Sr0 f5 actionCode 'ivy.log.error("Connection cannot be open.", error);
+Sr0 f5 actionCode 'ivy.log.error("Connection cannot be opened.", error);
 ' #txt
 Sr0 f5 attachedToRef 17A2EED74B988533-f3 #txt
 Sr0 f5 241 81 30 30 0 15 #rect
