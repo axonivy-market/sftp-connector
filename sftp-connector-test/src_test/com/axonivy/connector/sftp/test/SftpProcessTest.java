@@ -22,7 +22,7 @@ import ch.ivyteam.ivy.scripting.objects.File;
 
 
 /**
- * This sample ProcessTest simulates SFTP operations by calling the sub processes: 
+ * This SftpProcessTest simulates SFTP operations by calling the sub processes: 
  * SftpUploadFile and SftpDownloadFile.
  * 
  * <p>The test can either be run<ul>
@@ -35,7 +35,7 @@ import ch.ivyteam.ivy.scripting.objects.File;
  * </p>
  */
 @IvyProcessTest
-public class SampleProcessTest{
+public class SftpProcessTest {
 
 	private static final BpmProcess TEST_HELPER_PROCESS = BpmProcess.path("Sftp/SftpHelper");
 	private static final BpmProcess TEST_UPLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpUploadFile");
