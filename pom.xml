@@ -8,6 +8,7 @@
   <modules>
     <module>sftp-connector</module>
     <module>sftp-connector-demo</module>
+    <module>sftp-connector-test</module>
   </modules>
 
   <scm>
