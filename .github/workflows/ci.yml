@@ -34,8 +34,7 @@ jobs:
       run: |
         sudo useradd -s /bin/bash -d /home/usr/ -m -G ssh usr
         # Change user password
-        sudo passwd usr
-        pwd
+        echo pwd | sudo passwd --stdin usr
 
     - name: Build with Maven on master branch
       if: github.ref == 'refs/heads/master'
