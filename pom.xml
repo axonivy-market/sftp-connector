@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.connector.sftp</groupId>
   <artifactId>sftp-connector-modules</artifactId>
-  <version>9.2.2-SNAPSHOT</version>
+  <version>9.2.2</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -13,7 +13,7 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/axonivy-market/sftp-connector.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v9.2.2</tag>
   </scm>
 
   <build>
