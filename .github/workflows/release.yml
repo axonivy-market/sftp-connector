@@ -20,6 +20,15 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
 
+      - name: Install and start SFTP
+        run: |
+          sudo apt install openssh-server
+          sudo systemctl enable ssh
+          sudo systemctl start ssh
+
+      - name: Create a test user account
+        run: sudo useradd -s /bin/bash -d /home/usr -m -g ssh -p $(echo pwd | openssl passwd -1 -stdin) usr
+        
       - name: Deploy
         run: mvn --batch-mode release:prepare release:perform
         env:
