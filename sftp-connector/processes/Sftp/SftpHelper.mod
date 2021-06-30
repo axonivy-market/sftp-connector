@@ -39,17 +39,20 @@ Sr0 f3 actionCode 'import com.axonivy.connector.sftp.service.SftpClientService;
 import java.lang.NumberFormatException;
 
 
-String host = ivy.var.com_axonivy_connector_sftp_server_host;
+String prefix = "com_axonivy_connector_sftp_server_";
+
+String host = ivy.var.variable(prefix+"host").value();
 Integer port = 22;
+String portRaw = ivy.var.variable(prefix+"port").value();
 try {
-	port = Integer.parseInt(ivy.var.com_axonivy_connector_sftp_server_port);
+	port = Integer.parseInt(portRaw);
 }
 catch(NumberFormatException nfe) {
 	ivy.log.error("The Global Variable: com.axonivy.connector.sftp.server.port = {0} does not contain a number. The default port number: {1} will be used instead.", 
-		nfe, ivy.var.com_axonivy_connector_sftp_server_port, port);
+		nfe, portRaw);
 }
-String username = ivy.var.com_axonivy_connector_sftp_server_username;
-String password = ivy.var.com_axonivy_connector_sftp_server_password;
+String username = ivy.var.variable(prefix+"username").value();
+String password = ivy.var.variable(prefix+"password").value();
 
 ivy.log.debug("The following settings will be used to connect to the SFTP server: hostname: {0}, port: {1}, username: {2}. Connection in progress...", 
 	host, port, username);
