@@ -4,10 +4,6 @@ Variables:
     # The host name to the SFTP server
     host: 'localhost'
 
-    # The password to the SFTP server
-    # [password]
-    password: pwd
-
     # The port number to the SFTP server
     port: 22
 

@@ -37,7 +37,6 @@ import ch.ivyteam.ivy.scripting.objects.File;
 @IvyProcessTest
 public class SftpProcessTest {
 
-	private static final BpmProcess TEST_HELPER_PROCESS = BpmProcess.path("Sftp/SftpHelper");
 	private static final BpmProcess TEST_UPLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpUploadFile");
 	private static final BpmProcess TEST_DOWNLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpDownloadFile");
 
@@ -47,17 +46,9 @@ public class SftpProcessTest {
 
 	@Test
 	@Order(1)
-	public void callOpenConnection(BpmClient bpmClient) {
-		BpmElement startable = TEST_HELPER_PROCESS.elementName("openConnection()");
-		
-		SubProcessCallResult result = bpmClient.start()
-			        .subProcess(startable)
-			        .execute() // Callable sub process input arguments 
-			        .subResult();
-		
-		SftpClientService sftpClient = result.param("sftpClient", SftpClientService.class);
-		assertThat(sftpClient).isNotNull();
-		sftpClient.close();
+	public void callOpenConnection() {
+		assertThat(SftpClientService.getInstance().getSession()).isNotNull();
+		assertThat(SftpClientService.getInstance().getSession().isOpen()).isTrue();
 	}
 
 	@Test

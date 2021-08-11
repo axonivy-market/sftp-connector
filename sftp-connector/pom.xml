@@ -5,12 +5,14 @@
   <artifactId>sftp-connector</artifactId>
   <version>9.2.2-SNAPSHOT</version>
   <packaging>iar</packaging>
+  <properties>
+    <spring.version>5.2.5.RELEASE</spring.version>
+  </properties>
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->
     <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-      <version>0.1.55</version>
+      <groupId>org.springframework.integration</groupId>
+      <artifactId>spring-integration-sftp</artifactId>
+      <version>${spring.version}</version>
     </dependency>
   </dependencies>
   <distributionManagement>
