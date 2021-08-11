@@ -2,12 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.axonivy.connector.sftp</groupId>
   <artifactId>sftp-connector-modules</artifactId>
-  <version>9.2.2-SNAPSHOT</version>
+  <version>9.2.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <modules>
     <module>sftp-connector</module>
     <module>sftp-connector-demo</module>
+    <module>sftp-connector-test</module>
   </modules>
 
   <scm>

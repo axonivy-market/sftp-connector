@@ -53,11 +53,10 @@ Ts0 f0 115 51 26 26 -16 15 #rect
 Ts0 f1 467 51 26 26 0 12 #rect
 Ts0 f9 actionTable 'out=in;
 ' #txt
-Ts0 f9 actionCode '
-in.clientHost = ivy.var.com_axonivy_connector_sftp_server_host;
-in.clientPort = Integer.parseInt(ivy.var.com_axonivy_connector_sftp_server_port);
-in.clientUsername = ivy.var.com_axonivy_connector_sftp_server_username;
-' #txt
+Ts0 f9 actionCode 'String prefix = "com_axonivy_connector_sftp_server_";
+in.clientHost = ivy.var.variable(prefix+"host").value();
+in.clientPort = Integer.parseInt(ivy.var.variable(prefix+"port").value());
+in.clientUsername = ivy.var.variable(prefix+"username").value();' #txt
 Ts0 f9 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
