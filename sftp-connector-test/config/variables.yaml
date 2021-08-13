@@ -1,8 +1,23 @@
-# == Variables ==
-# 
-# You can define here your project Variables.
-# If you want to define/override a Variable for a specific Environment, 
-# please add a 'variables.yaml' in the sub directory '_<environment>'.
-#
 Variables:
-  #myVariable: value
+
+  com.axonivy.connector.sftp.server:
+    # The host name to the SFTP server
+    host: 'localhost'
+
+    # The port number to the SFTP server
+    port: 22
+
+    # The username to the SFTP server
+    username: 'usr'
+
+    # The password to the SFTP server. If a password is not provided, then a privateKey is mandatory
+    # [password]
+    password: pwd
+
+    # The location of the private key used for authenticating against the remote host 
+    # (absolute path or relative path to '[designer/engine]/configuration')
+    privateKey: 'sftpConnector_rsa.ppk'
+
+    # The password for the private key (optional)
+    # [password]
+    privateKeyPassphrase: sftpConnectorIntegration
