@@ -9,3 +9,15 @@ Variables:
 
     # The username to the SFTP server
     username: 'usr'
+
+    # The password to the SFTP server. If a password is not provided, then a privateKey is mandatory
+    # [password]
+    password:
+
+    # The location of the private key used for authenticating against the remote host 
+    # (absolute path or relative path to '[designer/engine]/configuration')
+    privateKey:
+
+    # The password for the private key (optional)
+    # [password]
+    privateKeyPassphrase:

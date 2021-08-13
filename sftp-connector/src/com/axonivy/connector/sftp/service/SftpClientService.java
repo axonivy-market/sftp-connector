@@ -1,13 +1,15 @@
 package com.axonivy.connector.sftp.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.integration.file.remote.session.CachingSessionFactory;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
@@ -23,8 +25,16 @@ import ch.ivyteam.ivy.environment.Ivy;
  */
 public class SftpClientService {
 	private static final Logger LOG = Logger.getLogger(SftpClientService.class);
+	private static final String VAR_NAME_SFTP_SERVER = "com.axonivy.connector.sftp.server";
+	private static final String VAR_NAME_HOST = VAR_NAME_SFTP_SERVER + ".host";
+	private static final String VAR_NAME_PORT = VAR_NAME_SFTP_SERVER + ".port";
+	private static final String VAR_NAME_USERNAME = VAR_NAME_SFTP_SERVER + ".username";
+	private static final String VAR_NAME_PASSWORD = VAR_NAME_SFTP_SERVER + ".password";
+	private static final String VAR_NAME_PRIVATE_KEY = VAR_NAME_SFTP_SERVER + ".privateKey";
+	private static final String VAR_NAME_PRIVATE_KEY_PASSPHRASE = VAR_NAME_SFTP_SERVER + ".privateKeyPassphrase";
 	private static final int SESSION_CACHE_SIZE = 10;
 	private static final long SESSION_WAIT_TIMEOUT = 10000;
+	private static final String IVY_CONFIGURATION_FOLDER = "configuration";
 	
 	
 	private static SftpClientService instance;
@@ -36,13 +46,13 @@ public class SftpClientService {
 	 * Instantiates the SftpClientService object.
 	 */
 	private SftpClientService() {
-		String hostname = Ivy.var().get("com.axonivy.connector.sftp.server.host");
-		String username = Ivy.var().get("com.axonivy.connector.sftp.server.username");
+		String hostname = Ivy.var().get(VAR_NAME_HOST);
+		String portValue = Ivy.var().get(VAR_NAME_PORT);
+		String username = Ivy.var().get(VAR_NAME_USERNAME);
+		String password = Ivy.var().get(VAR_NAME_PASSWORD);
+		String privateKey = Ivy.var().get(VAR_NAME_PRIVATE_KEY);
+		String privateKeyPassphrase = Ivy.var().get(VAR_NAME_PRIVATE_KEY_PASSPHRASE);
 		int port = 22;
-		String privateKey = "META-INF/keys/sftpConnector_rsa.ppk";
-		String privateKeyPassphrase = "sftpConnectorIntegration";
-		
-		String portValue = Ivy.var().get("com.axonivy.connector.sftp.server.port");
 		try {
 			port = Integer.parseInt(portValue);
 		}
@@ -58,8 +68,21 @@ public class SftpClientService {
 		sftpSessionFactory.setAllowUnknownKeys(true);
 		sftpSessionFactory.setHost(hostname);
 		sftpSessionFactory.setPort(port);
-		sftpSessionFactory.setPrivateKey(new ClassPathResource(privateKey, getClass().getClassLoader()));
-		sftpSessionFactory.setPrivateKeyPassphrase(privateKeyPassphrase);
+		if(StringUtils.isNotBlank(password)) {
+			LOG.debug("The password will be used to authenticate against the SFTP server");
+			sftpSessionFactory.setPassword(password);
+		}
+		else {
+			LOG.debug("The password is empty so the private key will be used to authenticate against the SFTP server");
+			FileSystemResource privateKeyResource = new FileSystemResource(privateKey);
+			if(!privateKeyResource.exists()) {
+				privateKey = IVY_CONFIGURATION_FOLDER + File.separator + privateKey;
+				privateKeyResource = new FileSystemResource(privateKey);
+			}
+			LOG.debug("The private key path: " + privateKey);
+			sftpSessionFactory.setPrivateKey(privateKeyResource);
+			sftpSessionFactory.setPrivateKeyPassphrase(privateKeyPassphrase);
+		}
 		sftpSessionFactory.setUser(username);
 		
 		cachingSessionFactory = new CachingSessionFactory<>(sftpSessionFactory, SESSION_CACHE_SIZE);

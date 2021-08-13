@@ -13,14 +13,10 @@ Se0 @StartSub f0 '' #zField
 Se0 @EndSub f1 '' #zField
 Se0 @GridStep f3 '' #zField
 Se0 @PushWFArc f2 '' #zField
-Se0 @ErrorBoundaryEvent f5 '' #zField
-Se0 @PushWFArc f6 '' #zField
 Se0 @StartSub f12 '' #zField
 Se0 @EndSub f13 '' #zField
 Se0 @GridStep f15 '' #zField
 Se0 @PushWFArc f20 '' #zField
-Se0 @ErrorBoundaryEvent f21 '' #zField
-Se0 @PushWFArc f22 '' #zField
 Se0 @PushWFArc f24 '' #zField
 Se0 @PushWFArc f8 '' #zField
 >Proto Se0 Se0 SftpUploadFile #zField
@@ -50,9 +46,12 @@ Se0 f3 actionCode 'import com.axonivy.connector.sftp.service.SftpClientService;
 
 ivy.log.debug("The following file: {0} will be uploaded to the server. File size: {1} bytes", 
 	in.fileName, in.fileToBeUploaded.available());
-
-SftpClientService.getInstance().getSession().write(in.fileToBeUploaded, in.fileName);
-
+try {
+	SftpClientService.getInstance().getSession().write(in.fileToBeUploaded, in.fileName);
+}
+catch(Exception e) {
+	ivy.log.error("uploadFile failed because of the following error: ", e);
+}
 ivy.log.debug("File uploaded.");
 in.isSuccess = true;
 ' #txt
@@ -65,16 +64,6 @@ Se0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f3 296 42 112 44 -27 -8 #rect
 Se0 f2 408 64 593 64 #arcP
-Se0 f5 actionTable 'out=in;
-' #txt
-Se0 f5 actionCode 'ivy.log.error("uploadFile failed because of the following error: ", error);
-' #txt
-Se0 f5 attachedToRef 17A24810A3595EC1-f3 #txt
-Se0 f5 369 81 30 30 0 15 #rect
-Se0 f6 384 111 608 79 #arcP
-Se0 f6 1 384 128 #addKink
-Se0 f6 2 576 128 #addKink
-Se0 f6 1 0.5933249901889531 0 0 #arcLabel
 Se0 f12 inParamDecl '<File file> param;' #txt
 Se0 f12 inParamTable 'out.ivyFile=param.file;
 ' #txt
@@ -99,9 +88,12 @@ Se0 f15 actionCode 'import com.axonivy.connector.sftp.service.SftpClientService;
 import java.io.FileInputStream;
 
 ivy.log.debug("The following file: {0} will be uploaded to the server.", in.ivyFile.getName());
-
-SftpClientService.getInstance().getSession().write(new FileInputStream(in.ivyFile.getJavaFile()), in.ivyFile.getName());
-
+try {
+	SftpClientService.getInstance().getSession().write(new FileInputStream(in.ivyFile.getJavaFile()), in.ivyFile.getName());
+}
+catch(Exception e) {
+	ivy.log.error("uploadFile failed because of the following error: ", e);
+}
 ivy.log.debug("File uploaded.");
 in.isSuccess = true;
 ' #txt
@@ -114,16 +106,6 @@ Se0 f15 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f15 296 234 112 44 -27 -8 #rect
 Se0 f20 408 256 593 256 #arcP
-Se0 f21 actionTable 'out=in;
-' #txt
-Se0 f21 actionCode 'ivy.log.error("uploadFile failed because of the following error: ", error);
-' #txt
-Se0 f21 attachedToRef 17A24810A3595EC1-f15 #txt
-Se0 f21 369 273 30 30 0 15 #rect
-Se0 f22 384 303 608 271 #arcP
-Se0 f22 1 384 320 #addKink
-Se0 f22 2 576 320 #addKink
-Se0 f22 1 0.5301560500977818 0 0 #arcLabel
 Se0 f24 111 64 296 64 #arcP
 Se0 f8 111 256 296 256 #arcP
 >Proto Se0 .type com.axonivy.connector.sftp.SftpUploadFileData #txt
@@ -149,12 +131,8 @@ Se0 f8 111 256 296 256 #arcP
 >Proto Se0 @|BIcon #fIcon
 Se0 f3 mainOut f2 tail #connect
 Se0 f2 head f1 mainIn #connect
-Se0 f5 mainOut f6 tail #connect
-Se0 f6 head f1 mainIn #connect
 Se0 f15 mainOut f20 tail #connect
 Se0 f20 head f13 mainIn #connect
-Se0 f21 mainOut f22 tail #connect
-Se0 f22 head f13 mainIn #connect
 Se0 f0 mainOut f24 tail #connect
 Se0 f24 head f3 mainIn #connect
 Se0 f12 mainOut f8 tail #connect

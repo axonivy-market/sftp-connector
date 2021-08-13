@@ -13,14 +13,10 @@ Se0 @StartSub f0 '' #zField
 Se0 @EndSub f1 '' #zField
 Se0 @GridStep f3 '' #zField
 Se0 @PushWFArc f2 '' #zField
-Se0 @ErrorBoundaryEvent f5 '' #zField
-Se0 @PushWFArc f6 '' #zField
 Se0 @StartSub f7 '' #zField
 Se0 @EndSub f8 '' #zField
 Se0 @GridStep f9 '' #zField
 Se0 @PushWFArc f11 '' #zField
-Se0 @ErrorBoundaryEvent f12 '' #zField
-Se0 @PushWFArc f13 '' #zField
 Se0 @PushWFArc f14 '' #zField
 Se0 @PushWFArc f15 '' #zField
 >Proto Se0 Se0 SftpDownloadFile #zField
@@ -51,18 +47,21 @@ import java.io.FileOutputStream;
 
 ivy.log.debug("The following file: {0} will be downloaded from the server.", in.remoteFileName);
 	
-	in.toFile = new File(in.remoteFileName, true);
+in.toFile = new File(in.remoteFileName, true);
 
-	FileOutputStream fos = null;
-	try {
-		fos = new FileOutputStream(in.toFile.getJavaFile());
-		SftpClientService.getInstance().getSession().read(in.remoteFileName, fos);
+FileOutputStream fos = null;
+try {
+	fos = new FileOutputStream(in.toFile.getJavaFile());
+	SftpClientService.getInstance().getSession().read(in.remoteFileName, fos);
+}
+catch(Exception e) {
+	ivy.log.error("dowloadFile failed because of the following error: ", e);
+}
+finally {
+	if(#fos is initialized) {
+		fos.close();
 	}
-	finally {
-		if(#fos is initialized) {
-			fos.close();
-		}
-	}
+}
 ivy.log.debug("File downloaded.");
 ' #txt
 Se0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -74,16 +73,6 @@ Se0 f3 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f3 296 42 112 44 -35 -8 #rect
 Se0 f2 408 64 593 64 #arcP
-Se0 f5 actionTable 'out=in;
-' #txt
-Se0 f5 actionCode 'ivy.log.error("dowloadFile failed because of the following error: ", error);
-' #txt
-Se0 f5 attachedToRef 17A24807C6359438-f3 #txt
-Se0 f5 369 81 30 30 0 15 #rect
-Se0 f6 384 111 608 79 #arcP
-Se0 f6 1 384 128 #addKink
-Se0 f6 2 576 128 #addKink
-Se0 f6 1 0.4856858380418765 0 0 #arcLabel
 Se0 f7 inParamDecl '<String remoteDirectory> param;' #txt
 Se0 f7 inParamTable 'out.remoteDirectory=param.remoteDirectory;
 ' #txt
@@ -108,7 +97,12 @@ Se0 f9 actionCode 'import com.axonivy.connector.sftp.service.SftpClientService;
 
 
 ivy.log.debug("The following directory: {0} will be listed.", in.remoteDirectory);
-in.listFiles = SftpClientService.getInstance().listAllFiles(in.remoteDirectory);
+try {
+	in.listFiles = SftpClientService.getInstance().listAllFiles(in.remoteDirectory);
+}
+catch(Exception e) {
+	ivy.log.error("listAllFiles failed because of the following error: ", e);
+}
 ' #txt
 Se0 f9 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
@@ -119,16 +113,6 @@ Se0 f9 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 ' #txt
 Se0 f9 296 234 112 44 -32 -8 #rect
 Se0 f11 408 256 593 256 #arcP
-Se0 f12 actionTable 'out=in;
-' #txt
-Se0 f12 actionCode 'ivy.log.error("listAllFiles failed because of the following error: ", error);
-' #txt
-Se0 f12 attachedToRef 17A24807C6359438-f9 #txt
-Se0 f12 369 273 30 30 0 15 #rect
-Se0 f13 384 303 608 271 #arcP
-Se0 f13 1 384 320 #addKink
-Se0 f13 2 576 320 #addKink
-Se0 f13 1 0.4856858380418765 0 0 #arcLabel
 Se0 f14 111 64 296 64 #arcP
 Se0 f15 111 256 296 256 #arcP
 >Proto Se0 .type com.axonivy.connector.sftp.SftpDownloadFileData #txt
@@ -154,12 +138,8 @@ Se0 f15 111 256 296 256 #arcP
 >Proto Se0 @|BIcon #fIcon
 Se0 f3 mainOut f2 tail #connect
 Se0 f2 head f1 mainIn #connect
-Se0 f5 mainOut f6 tail #connect
-Se0 f6 head f1 mainIn #connect
 Se0 f9 mainOut f11 tail #connect
 Se0 f11 head f8 mainIn #connect
-Se0 f12 mainOut f13 tail #connect
-Se0 f13 head f8 mainIn #connect
 Se0 f0 mainOut f14 tail #connect
 Se0 f14 head f3 mainIn #connect
 Se0 f7 mainOut f15 tail #connect
