@@ -9,6 +9,7 @@
     <module>sftp-connector</module>
     <module>sftp-connector-demo</module>
     <module>sftp-connector-test</module>
+    <module>sftp-connector-product</module>
   </modules>
 
   <scm>
