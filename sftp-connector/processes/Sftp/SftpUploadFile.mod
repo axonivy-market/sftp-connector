@@ -1,5 +1,5 @@
 [Ivy]
-17A24810A3595EC1 9.2.0 #module
+17A24810A3595EC1 9.3.1 #module
 >Proto >Proto Collection #zClass
 Se0 SftpUploadFile Big #zClass
 Se0 B #cInfo
@@ -42,7 +42,7 @@ Se0 f0 outParamDecl '<Boolean isSuccess> result;' #txt
 Se0 f0 outParamTable 'result.isSuccess=in.isSuccess;
 ' #txt
 Se0 f0 callSignature uploadFile(java.io.InputStream,String) #txt
-Se0 f0 tags CONNECTOR #txt
+Se0 f0 @CG|tags CONNECTOR #txt
 Se0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
@@ -115,7 +115,7 @@ Se0 f12 outParamDecl '<Boolean isSuccess> result;' #txt
 Se0 f12 outParamTable 'result.isSuccess=in.isSuccess;
 ' #txt
 Se0 f12 callSignature uploadFile(File) #txt
-Se0 f12 tags CONNECTOR #txt
+Se0 f12 @CG|tags CONNECTOR #txt
 Se0 f12 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
