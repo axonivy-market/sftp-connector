@@ -1,5 +1,5 @@
 [Ivy]
-17A24807C6359438 9.2.0 #module
+17A24807C6359438 9.3.1 #module
 >Proto >Proto Collection #zClass
 Se0 SftpDownloadFile Big #zClass
 Se0 B #cInfo
@@ -41,7 +41,7 @@ Se0 f0 outParamDecl '<java.io.File toFile> result;' #txt
 Se0 f0 outParamTable 'result.toFile=in.#toFile.getJavaFile();
 ' #txt
 Se0 f0 callSignature downloadFile(String) #txt
-Se0 f0 tags CONNECTOR #txt
+Se0 f0 @CG|tags CONNECTOR #txt
 Se0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
@@ -109,7 +109,7 @@ Se0 f7 outParamDecl '<java.util.List<com.axonivy.connector.sftp.service.SftpClie
 Se0 f7 outParamTable 'result.listFiles=in.listFiles;
 ' #txt
 Se0 f7 callSignature listAllFiles(String) #txt
-Se0 f7 tags CONNECTOR #txt
+Se0 f7 @CG|tags CONNECTOR #txt
 Se0 f7 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>

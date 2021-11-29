@@ -1,5 +1,5 @@
 [Ivy]
-17A2EED74B988533 9.2.0 #module
+17A2EED74B988533 9.3.1 #module
 >Proto >Proto Collection #zClass
 Sr0 SftpHelper Big #zClass
 Sr0 B #cInfo
@@ -22,7 +22,7 @@ Sr0 f0 outParamDecl '<com.axonivy.connector.sftp.service.SftpClientService sftpC
 Sr0 f0 outParamTable 'result.sftpClient=in.#sftpClient;
 ' #txt
 Sr0 f0 callSignature openConnection() #txt
-Sr0 f0 tags CONNECTOR #txt
+Sr0 f0 @CG|tags CONNECTOR #txt
 Sr0 f0 @C|.xml '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <elementInfo>
     <language>
