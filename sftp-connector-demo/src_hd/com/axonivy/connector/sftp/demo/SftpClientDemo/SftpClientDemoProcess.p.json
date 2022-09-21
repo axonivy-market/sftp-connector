@@ -1,0 +1,292 @@
+{
+  "format" : "9.4.20",
+  "id" : "17A2497EC43FFF44",
+  "data" : "com.axonivy.connector.sftp.demo.SftpClientDemo.SftpClientDemoData",
+  "kind" : "HTML_DIALOG",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "HtmlDialogStart",
+      "name" : "start()",
+      "config" : {
+        "callSignature" : "start",
+        "guid" : "162B91B419062D1B"
+      },
+      "visual" : {
+        "at" : { "x" : 128, "y" : 64 },
+        "labelOffset" : { "x" : 12, "y" : 35 }
+      },
+      "connect" : { "id" : "f10", "to" : "f9" }
+    }, {
+      "id" : "f1",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 480, "y" : 64 }
+      }
+    }, {
+      "id" : "f9",
+      "type" : "Script",
+      "name" : "Init",
+      "config" : {
+        "output" : {
+          "code" : [
+            "String prefix = \"com_axonivy_connector_sftp_server_\";",
+            "in.clientHost = ivy.var.variable(prefix+\"host\").value();",
+            "in.clientPort = Integer.parseInt(ivy.var.variable(prefix+\"port\").value());",
+            "in.clientUsername = ivy.var.variable(prefix+\"username\").value();"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 320, "y" : 64 }
+      },
+      "connect" : { "id" : "f2", "to" : "f1" }
+    }, {
+      "id" : "f11",
+      "type" : "HtmlDialogMethodStart",
+      "name" : [
+        "handleFileUpload",
+        "(FileUploadEvent)"
+      ],
+      "config" : {
+        "callSignature" : "handleFileUpload",
+        "input" : {
+          "params" : [
+            { "name" : "event", "type" : "org.primefaces.event.FileUploadEvent" }
+          ],
+          "map" : {
+            "out.uploadedFile" : "param.event.getFile()"
+          }
+        },
+        "guid" : "162BA2B9BF7640CB"
+      },
+      "visual" : {
+        "at" : { "x" : 128, "y" : 160 },
+        "labelOffset" : { "x" : -41, "y" : 35 }
+      },
+      "connect" : { "id" : "f14", "to" : "f38" }
+    }, {
+      "id" : "f12",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 672, "y" : 160 }
+      }
+    }, {
+      "id" : "f38",
+      "type" : "SubProcessCall",
+      "name" : "Sftp/SftpUploadFile",
+      "config" : {
+        "processCall" : "Sftp/SftpUploadFile:uploadFile(java.io.InputStream,String)",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.isFileUploaded" : "result.isSuccess"
+          }
+        },
+        "call" : {
+          "params" : [
+            { "name" : "fileToBeUploaded", "type" : "java.io.InputStream" },
+            { "name" : "fileName", "type" : "String" }
+          ],
+          "map" : {
+            "param.fileToBeUploaded" : "in.uploadedFile.getInputstream()",
+            "param.fileName" : "in.uploadedFile.getFileName()"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 320, "y" : 160 }
+      },
+      "connect" : { "id" : "f24", "to" : "f23" }
+    }, {
+      "id" : "f4",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 672, "y" : 256 }
+      }
+    }, {
+      "id" : "f5",
+      "type" : "SubProcessCall",
+      "name" : "Sftp/SftpDownloadFile",
+      "config" : {
+        "processCall" : "Sftp/SftpDownloadFile:downloadFile(String)",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.toFile" : "result.#toFile"
+          }
+        },
+        "call" : {
+          "params" : [
+            { "name" : "remoteFileName", "type" : "String" }
+          ],
+          "map" : {
+            "param.remoteFileName" : "in.fileToDownload.name"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 328, "y" : 256 },
+        "size" : { "width" : 128, "height" : 60 }
+      },
+      "connect" : { "id" : "f15", "to" : "f8" }
+    }, {
+      "id" : "f8",
+      "type" : "Script",
+      "name" : [
+        "Build ",
+        "Streamed Content"
+      ],
+      "config" : {
+        "output" : {
+          "code" : [
+            "import javax.faces.application.FacesMessage;",
+            "import javax.faces.context.FacesContext;",
+            "import java.io.FileInputStream;",
+            "import org.primefaces.model.DefaultStreamedContent;",
+            "",
+            "",
+            "if(in.#toFile is initialized && in.toFile.exists()) {",
+            "  in.streamedContent = new DefaultStreamedContent(new FileInputStream(in.toFile), \"\", in.toFile.getName(), in.toFile.length());",
+            "}",
+            "else {",
+            "  FacesContext.getCurrentInstance().addMessage(\":mainPanel:downloadForm:downloadMessages\", ",
+            "    new FacesMessage(FacesMessage.SEVERITY_ERROR, \"Error\", \"The file: '\" + in.remoteFileName + \"' does not exist on the server!\"));",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 520, "y" : 256 },
+        "size" : { "width" : 128, "height" : 60 }
+      },
+      "connect" : { "id" : "f7", "to" : "f4" }
+    }, {
+      "id" : "f16",
+      "type" : "HtmlDialogEventStart",
+      "name" : "listAllFiles",
+      "config" : {
+        "guid" : "17A242DACB13DDD2"
+      },
+      "visual" : {
+        "at" : { "x" : 128, "y" : 352 },
+        "labelOffset" : { "x" : 23, "y" : 35 }
+      },
+      "connect" : { "id" : "f19", "to" : "f18" }
+    }, {
+      "id" : "f17",
+      "type" : "HtmlDialogEnd",
+      "visual" : {
+        "at" : { "x" : 672, "y" : 352 }
+      }
+    }, {
+      "id" : "f18",
+      "type" : "SubProcessCall",
+      "name" : "call list All Files",
+      "config" : {
+        "processCall" : "Sftp/SftpDownloadFile:listAllFiles(String)",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.listRemoteFiles" : "result.listFiles"
+          }
+        },
+        "call" : {
+          "params" : [
+            { "name" : "remoteDirectory", "type" : "String" }
+          ],
+          "map" : {
+            "param.remoteDirectory" : "\".\""
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 320, "y" : 352 }
+      },
+      "connect" : { "id" : "f6", "to" : "f3" }
+    }, {
+      "id" : "f21",
+      "type" : "HtmlDialogMethodStart",
+      "name" : "downloadFile(FileData)",
+      "config" : {
+        "callSignature" : "downloadFile",
+        "result" : {
+          "params" : [
+            { "name" : "streamedContent", "type" : "org.primefaces.model.StreamedContent" }
+          ],
+          "map" : {
+            "result.streamedContent" : "in.streamedContent"
+          }
+        },
+        "input" : {
+          "params" : [
+            { "name" : "file", "type" : "com.axonivy.connector.sftp.service.SftpClientService.FileData" }
+          ],
+          "map" : {
+            "out.fileToDownload" : "param.file"
+          }
+        },
+        "guid" : "17A243054FCBCE01"
+      },
+      "visual" : {
+        "at" : { "x" : 128, "y" : 256 },
+        "labelOffset" : { "x" : 26, "y" : 35 }
+      },
+      "connect" : { "id" : "f22", "to" : "f5" }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "Filter files only",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.axonivy.connector.sftp.service.SftpClientService.FileData;",
+            "import java.util.ArrayList;",
+            "",
+            "",
+            "List listFilesOnly = new ArrayList();",
+            "for(FileData file: in.listRemoteFiles) {",
+            "  if(file.file) {",
+            "    listFilesOnly.add(file);",
+            "  }",
+            "}",
+            "",
+            "in.listRemoteFiles = listFilesOnly;"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 512, "y" : 352 }
+      },
+      "connect" : { "id" : "f20", "to" : "f17" }
+    }, {
+      "id" : "f23",
+      "type" : "Script",
+      "name" : [
+        "Add ",
+        "Faces Message"
+      ],
+      "config" : {
+        "output" : {
+          "code" : [
+            "import javax.faces.application.FacesMessage;",
+            "import javax.faces.context.FacesContext;",
+            "",
+            "",
+            "if(in.isFileUploaded) {",
+            "  FacesContext.getCurrentInstance().addMessage(\":mainPanel:uploadForm:uploadMessages\", ",
+            "    new FacesMessage(FacesMessage.SEVERITY_INFO, \"Info\", \"The file: '\" + in.uploadedFile.getFileName() + \"' is uploaded to the server.\"));",
+            "}",
+            "else {",
+            "  FacesContext.getCurrentInstance().addMessage(\":mainPanel:uploadForm:uploadMessages\", ",
+            "    new FacesMessage(FacesMessage.SEVERITY_ERROR, \"Error\", \"The file: '\" + in.uploadedFile.getFileName() + \"' is not uploaded to the server!\"));",
+            "}"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 520, "y" : 160 },
+        "size" : { "width" : 128, "height" : 60 }
+      },
+      "connect" : { "id" : "f13", "to" : "f12" }
+    } ]
+}
