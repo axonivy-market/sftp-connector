@@ -1,0 +1,221 @@
+{
+  "format" : "9.4.20",
+  "id" : "17A24810A3595EC1",
+  "data" : "com.axonivy.connector.sftp.SftpUploadFileData",
+  "kind" : "CALLABLE_SUB",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "uploadFile(InputStream,String)",
+      "config" : {
+        "callSignature" : "uploadFile",
+        "input" : {
+          "params" : [
+            { "name" : "fileToBeUploaded", "type" : "java.io.InputStream" },
+            { "name" : "fileName", "type" : "String" }
+          ],
+          "map" : {
+            "out.fileName" : "param.fileName",
+            "out.fileToBeUploaded" : "param.fileToBeUploaded"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "isSuccess", "type" : "Boolean" }
+          ],
+          "map" : {
+            "result.isSuccess" : "in.isSuccess"
+          }
+        },
+        "tags" : "CONNECTOR"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : 43, "y" : 40 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png?small"
+      },
+      "connect" : { "id" : "f8", "to" : "f7" }
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 608, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "Upload file",
+      "config" : {
+        "output" : {
+          "code" : [
+            "",
+            "ivy.log.debug(\"The following file: {0} will be uploaded to the server. File size: {1} bytes\", in.fileName, in.fileToBeUploaded.available());",
+            "",
+            "in.sftpClient.uploadFile(in.fileToBeUploaded, in.fileName);",
+            "",
+            "ivy.log.debug(\"File uploaded.\");",
+            "in.isSuccess = true;",
+            "in.sftpClient.close();",
+            "",
+            "ivy.log.debug(\"Connection closed.\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 480, "y" : 64 }
+      },
+      "boundaries" : [ {
+          "id" : "f5",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "code" : "ivy.log.error(\"uploadFile failed because of the following error: \", error);"
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 512, "y" : 96 }
+          },
+          "connect" : { "id" : "f6", "to" : "f1", "via" : [ { "x" : 512, "y" : 128 }, { "x" : 576, "y" : 128 } ] }
+        } ],
+      "connect" : { "id" : "f2", "to" : "f1" }
+    }, {
+      "id" : "f7",
+      "type" : "SubProcessCall",
+      "name" : "Connect",
+      "config" : {
+        "processCall" : "Sftp/SftpHelper:openConnection()",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.sftpClient" : "result.#sftpClient"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
+      },
+      "connect" : { "id" : "f10", "to" : "f9" }
+    }, {
+      "id" : "f9",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f3", "condition" : "in.#sftpClient is initialized" },
+        { "id" : "f11", "to" : "f1", "via" : [ { "x" : 352, "y" : 160 }, { "x" : 608, "y" : 160 } ] }
+      ]
+    }, {
+      "id" : "f12",
+      "type" : "CallSubStart",
+      "name" : "uploadFile(File)",
+      "config" : {
+        "callSignature" : "uploadFile",
+        "input" : {
+          "params" : [
+            { "name" : "file", "type" : "File" }
+          ],
+          "map" : {
+            "out.ivyFile" : "param.file"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "isSuccess", "type" : "Boolean" }
+          ],
+          "map" : {
+            "result.isSuccess" : "in.isSuccess"
+          }
+        },
+        "tags" : "CONNECTOR"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 },
+        "labelOffset" : { "x" : 24, "y" : 37 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png?small"
+      },
+      "connect" : { "id" : "f17", "to" : "f14" }
+    }, {
+      "id" : "f13",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 608, "y" : 256 }
+      }
+    }, {
+      "id" : "f14",
+      "type" : "SubProcessCall",
+      "name" : "Connect",
+      "config" : {
+        "processCall" : "Sftp/SftpHelper:openConnection()",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.sftpClient" : "result.#sftpClient"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 256 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
+      },
+      "connect" : { "id" : "f18", "to" : "f16" }
+    }, {
+      "id" : "f15",
+      "type" : "Script",
+      "name" : "Upload file",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import java.io.FileInputStream;",
+            "",
+            "ivy.log.debug(\"The following file: {0} will be uploaded to the server.\", in.ivyFile.getName());",
+            "",
+            "in.sftpClient.uploadFile(new FileInputStream(in.ivyFile.getJavaFile()), in.ivyFile.getName());",
+            "",
+            "ivy.log.debug(\"File uploaded.\");",
+            "in.isSuccess = true;",
+            "in.sftpClient.close();",
+            "",
+            "ivy.log.debug(\"Connection closed.\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 480, "y" : 256 }
+      },
+      "boundaries" : [ {
+          "id" : "f21",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "code" : "ivy.log.error(\"uploadFile failed because of the following error: \", error);"
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 512, "y" : 288 }
+          },
+          "connect" : { "id" : "f22", "to" : "f13", "via" : [ { "x" : 512, "y" : 320 }, { "x" : 576, "y" : 320 } ] }
+        } ],
+      "connect" : { "id" : "f20", "to" : "f13" }
+    }, {
+      "id" : "f16",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f19", "to" : "f15", "condition" : "in.#sftpClient is initialized" },
+        { "id" : "f23", "to" : "f13", "via" : [ { "x" : 352, "y" : 352 }, { "x" : 608, "y" : 352 } ] }
+      ]
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "uploadFile",
+        "size" : 192
+      }, {
+        "name" : "uploadFile",
+        "size" : 192
+      } ]
+  }
+}
