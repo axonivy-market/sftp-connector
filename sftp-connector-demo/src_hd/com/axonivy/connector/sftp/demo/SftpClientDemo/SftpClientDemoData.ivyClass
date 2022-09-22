@@ -18,5 +18,5 @@ streamedContent org.primefaces.model.StreamedContent #field
 streamedContent PERSISTENT #fieldModifier
 toFile java.io.File #field
 toFile PERSISTENT #fieldModifier
-uploadedFile org.primefaces.model.UploadedFile #field
+uploadedFile org.primefaces.model.file.UploadedFile #field
 uploadedFile PERSISTENT #fieldModifier

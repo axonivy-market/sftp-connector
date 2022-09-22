@@ -88,13 +88,14 @@
             { "name" : "fileName", "type" : "String" }
           ],
           "map" : {
-            "param.fileToBeUploaded" : "in.uploadedFile.getInputstream()",
+            "param.fileToBeUploaded" : "in.uploadedFile.getInputStream()",
             "param.fileName" : "in.uploadedFile.getFileName()"
           }
         }
       },
       "visual" : {
-        "at" : { "x" : 320, "y" : 160 }
+        "at" : { "x" : 320, "y" : 160 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
       },
       "connect" : { "id" : "f24", "to" : "f23" }
     }, {
@@ -126,7 +127,8 @@
       },
       "visual" : {
         "at" : { "x" : 328, "y" : 256 },
-        "size" : { "width" : 128, "height" : 60 }
+        "size" : { "width" : 128, "height" : 60 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
       },
       "connect" : { "id" : "f15", "to" : "f8" }
     }, {
@@ -139,6 +141,7 @@
       "config" : {
         "output" : {
           "code" : [
+            "import ch.ivyteam.ivy.jsf.primefaces.stream.InputStreamSupplier;",
             "import javax.faces.application.FacesMessage;",
             "import javax.faces.context.FacesContext;",
             "import java.io.FileInputStream;",
@@ -146,7 +149,10 @@
             "",
             "",
             "if(in.#toFile is initialized && in.toFile.exists()) {",
-            "  in.streamedContent = new DefaultStreamedContent(new FileInputStream(in.toFile), \"\", in.toFile.getName(), in.toFile.length());",
+            "  in.streamedContent = DefaultStreamedContent.builder()",
+            "                          .name(in.toFile.getName())",
+            "                          .stream(InputStreamSupplier.stream(new FileInputStream(in.toFile)))",
+            "                          .build();",
             "}",
             "else {",
             "  FacesContext.getCurrentInstance().addMessage(\":mainPanel:downloadForm:downloadMessages\", ",
@@ -200,7 +206,8 @@
         }
       },
       "visual" : {
-        "at" : { "x" : 320, "y" : 352 }
+        "at" : { "x" : 320, "y" : 352 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
       },
       "connect" : { "id" : "f6", "to" : "f3" }
     }, {
