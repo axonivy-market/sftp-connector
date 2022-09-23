@@ -1,0 +1,234 @@
+{
+  "format" : "9.4.20",
+  "id" : "17A24807C6359438",
+  "data" : "com.axonivy.connector.sftp.SftpDownloadFileData",
+  "kind" : "CALLABLE_SUB",
+  "elements" : [ {
+      "id" : "f0",
+      "type" : "CallSubStart",
+      "name" : "downloadFile(String)",
+      "config" : {
+        "callSignature" : "downloadFile",
+        "input" : {
+          "params" : [
+            { "name" : "remoteFileName", "type" : "String" }
+          ],
+          "map" : {
+            "out.remoteFileName" : "param.remoteFileName"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "toFile", "type" : "java.io.File" }
+          ],
+          "map" : {
+            "result.toFile" : "in.#toFile.getJavaFile()"
+          }
+        },
+        "tags" : "CONNECTOR"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 64 },
+        "labelOffset" : { "x" : 27, "y" : 40 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png?small"
+      },
+      "connect" : { "id" : "f20", "to" : "f19" }
+    }, {
+      "id" : "f1",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 608, "y" : 64 }
+      }
+    }, {
+      "id" : "f3",
+      "type" : "Script",
+      "name" : "Download file",
+      "config" : {
+        "output" : {
+          "code" : [
+            "import com.axonivy.connector.sftp.service.SftpClientService.FileData;",
+            "import java.io.FileOutputStream;",
+            "",
+            "",
+            "FileData fileData = in.sftpClient.getFileData(in.remoteFileName);",
+            "if(fileData.isFile()) {",
+            "  ivy.log.debug(\"The following file: {0} will be downloaded from the server. Size: {1} bytes\", in.remoteFileName, fileData.size);",
+            "  ",
+            "  in.toFile = new File(in.remoteFileName, true);",
+            "",
+            "  FileOutputStream fos = null;",
+            "  try {",
+            "    fos = new FileOutputStream(in.toFile.getJavaFile());",
+            "    in.sftpClient.downloadFile(in.remoteFileName, fos);",
+            "  }",
+            "  finally {",
+            "    if(#fos is initialized) {",
+            "      fos.close();",
+            "    }",
+            "  }",
+            "  ivy.log.debug(\"File downloaded.\");",
+            "}",
+            "else {",
+            "  ivy.log.error(\"The file: {0} does not exist on the server!\", in.remoteFileName);",
+            "}",
+            "in.sftpClient.close();",
+            "",
+            "ivy.log.debug(\"Connection closed.\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 480, "y" : 64 }
+      },
+      "boundaries" : [ {
+          "id" : "f5",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "code" : "ivy.log.error(\"dowloadFile failed because of the following error: \", error);"
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 512, "y" : 96 }
+          },
+          "connect" : { "id" : "f6", "to" : "f1", "via" : [ { "x" : 512, "y" : 128 }, { "x" : 576, "y" : 128 } ] }
+        } ],
+      "connect" : { "id" : "f2", "to" : "f1" }
+    }, {
+      "id" : "f7",
+      "type" : "CallSubStart",
+      "name" : "listAllFiles(String)",
+      "config" : {
+        "callSignature" : "listAllFiles",
+        "input" : {
+          "params" : [
+            { "name" : "remoteDirectory", "type" : "String" }
+          ],
+          "map" : {
+            "out.remoteDirectory" : "param.remoteDirectory"
+          }
+        },
+        "result" : {
+          "params" : [
+            { "name" : "listFiles", "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>" }
+          ],
+          "map" : {
+            "result.listFiles" : "in.listFiles"
+          }
+        },
+        "tags" : "CONNECTOR"
+      },
+      "visual" : {
+        "at" : { "x" : 96, "y" : 256 },
+        "labelOffset" : { "x" : 23, "y" : 38 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png?small"
+      },
+      "connect" : { "id" : "f27", "to" : "f26" }
+    }, {
+      "id" : "f8",
+      "type" : "CallSubEnd",
+      "visual" : {
+        "at" : { "x" : 608, "y" : 256 }
+      }
+    }, {
+      "id" : "f9",
+      "type" : "Script",
+      "name" : "List All Files",
+      "config" : {
+        "output" : {
+          "code" : [
+            "",
+            "ivy.log.debug(\"The following directory: {0} will be listed.\", in.remoteDirectory);",
+            "",
+            "in.listFiles = in.sftpClient.getFileDataList(in.remoteDirectory);",
+            "",
+            "in.sftpClient.close();",
+            "",
+            "ivy.log.debug(\"Connection closed.\");"
+          ]
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 480, "y" : 256 }
+      },
+      "boundaries" : [ {
+          "id" : "f12",
+          "type" : "ErrorBoundaryEvent",
+          "config" : {
+            "output" : {
+              "code" : "ivy.log.error(\"listAllFiles failed because of the following error: \", error);"
+            }
+          },
+          "visual" : {
+            "at" : { "x" : 512, "y" : 288 }
+          },
+          "connect" : { "id" : "f13", "to" : "f8", "via" : [ { "x" : 512, "y" : 320 }, { "x" : 576, "y" : 320 } ] }
+        } ],
+      "connect" : { "id" : "f11", "to" : "f8" }
+    }, {
+      "id" : "f19",
+      "type" : "SubProcessCall",
+      "name" : "Connect",
+      "config" : {
+        "processCall" : "Sftp/SftpHelper:openConnection()",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.sftpClient" : "result.#sftpClient"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 64 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
+      },
+      "connect" : { "id" : "f24", "to" : "f23" }
+    }, {
+      "id" : "f23",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 64 }
+      },
+      "connect" : [
+        { "id" : "f4", "to" : "f3", "condition" : "in.#sftpClient is initialized" },
+        { "id" : "f25", "to" : "f1", "via" : [ { "x" : 352, "y" : 160 }, { "x" : 608, "y" : 160 } ] }
+      ]
+    }, {
+      "id" : "f26",
+      "type" : "SubProcessCall",
+      "name" : "Connect",
+      "config" : {
+        "processCall" : "Sftp/SftpHelper:openConnection()",
+        "output" : {
+          "map" : {
+            "out" : "in",
+            "out.sftpClient" : "result.#sftpClient"
+          }
+        }
+      },
+      "visual" : {
+        "at" : { "x" : 224, "y" : 256 },
+        "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
+      },
+      "connect" : { "id" : "f29", "to" : "f28" }
+    }, {
+      "id" : "f28",
+      "type" : "Alternative",
+      "visual" : {
+        "at" : { "x" : 352, "y" : 256 }
+      },
+      "connect" : [
+        { "id" : "f10", "to" : "f9", "condition" : "in.#sftpClient is initialized" },
+        { "id" : "f30", "to" : "f8", "via" : [ { "x" : 352, "y" : 344 }, { "x" : 608, "y" : 344 } ] }
+      ]
+    } ],
+  "layout" : {
+    "lanes" : [ {
+        "name" : "downloadFile",
+        "size" : 192
+      }, {
+        "name" : "listAllFiles",
+        "size" : 192
+      } ]
+  }
+}
