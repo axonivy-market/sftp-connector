@@ -47,7 +47,7 @@
 										icon="fa fa-retweet" styleClass="p-mr-2"
 										actionListener="#{logic.listAllFiles}" update="listRemoteFiles" />
 							</h:panelGrid>
-							<p:dataTable id="listRemoteFiles" value="#{data.listRemoteFiles}" var="file">
+							<p:dataTable id="listRemoteFiles" value="#{data.listRemoteFiles}" var="file" lazy="false">
 								<p:column headerText="Name">
 									<h:outputText value="#{file.name}" />
 								</p:column>
