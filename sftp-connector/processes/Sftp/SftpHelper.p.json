@@ -1,8 +1,10 @@
 {
-  "format" : "9.4.20",
+  "format" : "10.0.0",
   "id" : "17A2EED74B988533",
-  "data" : "com.axonivy.connector.sftp.SftpHelperData",
   "kind" : "CALLABLE_SUB",
+  "config" : {
+    "data" : "com.axonivy.connector.sftp.SftpHelperData"
+  },
   "elements" : [ {
       "id" : "f0",
       "type" : "CallSubStart",

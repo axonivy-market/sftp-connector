@@ -1,8 +1,10 @@
 {
-  "format" : "9.4.20",
+  "format" : "10.0.0",
   "id" : "17A2497EC43FFF44",
-  "data" : "com.axonivy.connector.sftp.demo.SftpClientDemo.SftpClientDemoData",
   "kind" : "HTML_DIALOG",
+  "config" : {
+    "data" : "com.axonivy.connector.sftp.demo.SftpClientDemo.SftpClientDemoData"
+  },
   "elements" : [ {
       "id" : "f0",
       "type" : "HtmlDialogStart",
