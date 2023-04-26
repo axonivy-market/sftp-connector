@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -21,11 +21,8 @@ jobs:
 
     - name: Install and start SFTP
       run: |
-        # Install SSH server in Ubuntu
         sudo apt install openssh-server
-        # Enable the ssh service
         sudo systemctl enable ssh
-        # Start the ssh service
         sudo systemctl start ssh
 
     - name: Create a test user account
