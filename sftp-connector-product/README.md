@@ -53,7 +53,7 @@ Before starting the demo, please make sure to have an SSH/SFTP server on your co
 1. Open the following settings in “RebexTinySftpServer.exe.config” with a text editor and update the following values:
    ![RebexTinySftpServer.exe.config](images/RebexTinySftpServer.exe.config.png)
 
-2. Open the `Configuration/variables.yaml` in your Designer and update the following global variables:
+2. Open the `configuration/variables.yaml` in your Designer and update the following global variables:
 
    ```
    
