@@ -27,7 +27,7 @@ jobs:
 
     - name: Create a test user account
       run: |
-        getent group
+        getent group | grep ssh
         sudo useradd -s /bin/bash -d /home/usr -m -g ssh -p $(echo pwd | openssl passwd -1 -stdin) usr
 
     - name: Build with Maven
