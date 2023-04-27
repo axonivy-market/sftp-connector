@@ -26,7 +26,9 @@ jobs:
         sudo systemctl start ssh
 
     - name: Create a test user account
-      run: sudo useradd -s /bin/bash -d /home/usr -m -g ssh -p $(echo pwd | openssl passwd -1 -stdin) usr
+      run: |
+        getent group
+        sudo useradd -s /bin/bash -d /home/usr -m -g ssh -p $(echo pwd | openssl passwd -1 -stdin) usr
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode
