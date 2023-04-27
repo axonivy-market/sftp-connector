@@ -40,17 +40,6 @@
                     }
                 ]
             }
-        },
-        {
-            "id": "project-resource",
-            "data": {
-                "resources": [
-                    {
-                        "source": "https://raw.githubusercontent.com/axonivy-market/sftp-connector/master/sftp-connector/config/variables.yaml",
-                        "path": "config/variables.yaml"
-                    }
-                ]
-            }
         }
     ]
 }
