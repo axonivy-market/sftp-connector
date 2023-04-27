@@ -28,7 +28,7 @@ jobs:
     - name: Create a test user account
       run: |
         sshGroupRaw=$(getent group | grep ssh)
-        sshGroup=${sshGroupRaw%:*:*}
+        sshGroup=${sshGroupRaw%:x*}
         echo "adding user to group ${sshGroup}"
         sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
 
