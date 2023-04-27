@@ -27,8 +27,10 @@ jobs:
 
     - name: Create a test user account
       run: |
-        getent group | grep ssh
-        sudo useradd -s /bin/bash -d /home/usr -m -g ssh -p $(echo pwd | openssl passwd -1 -stdin) usr
+        sshGroupRaw=$(getent group | grep ssh)
+        sshGroup=${sshGroupRaw%:*:*}
+        echo "adding user to group ${sshGroup}"
+        sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode
