@@ -7,7 +7,25 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install and start SFTP
+      run: |
+        sudo apt install openssh-server
+        sudo systemctl enable ssh
+        sudo systemctl start ssh
+    - name: Create a test user account
+      run: |
+        sshGroupRaw=$(getent group | grep ssh)
+        sshGroup=${sshGroupRaw%:x*}
+        echo "adding user to group ${sshGroup}"
+        sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
+
   build:
     uses: ./.github/workflows/ci.yml
+    needs: 'setup'
     with:
       mvnArgs: '"-Divy.engine.download.url=https://dev.axonivy.com/permalink/dev/axonivy-engine.zip" "-Divy.engine.version=(10.0.0,]"'
