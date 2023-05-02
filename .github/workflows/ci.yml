@@ -14,7 +14,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -23,19 +23,6 @@ jobs:
       uses: actions/setup-java@v1.4.3
       with:
         java-version: 17
-
-    - name: Install and start SFTP
-      run: |
-        sudo apt install openssh-server
-        sudo systemctl enable ssh
-        sudo systemctl start ssh
-
-    - name: Create a test user account
-      run: |
-        sshGroupRaw=$(getent group | grep ssh)
-        sshGroup=${sshGroupRaw%:x*}
-        echo "adding user to group ${sshGroup}"
-        sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode ${{ inputs.mvnArgs }}
