@@ -7,7 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install and start SFTP
+      run: |
+        sudo apt install openssh-server
+        sudo systemctl enable ssh
+        sudo systemctl start ssh
   build:
     uses: ./.github/workflows/ci.yml
+    needs: 'setup'
     with:
       mvnArgs: '"-Divy.engine.download.url=https://dev.axonivy.com/permalink/dev/axonivy-engine.zip" "-Divy.engine.version=(10.0.0,]"'
