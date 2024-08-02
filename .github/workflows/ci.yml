@@ -49,7 +49,7 @@ jobs:
         maven-version: ${{ inputs.mvnVersion }}
 
     - name: Build with Maven
-      run: mvn clean verify --batch-mode ${{ inputs.mvnArgs }}
+      run: mvn clean verify --batch-mode --fail-at-end ${{ inputs.mvnArgs }}
 
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
@@ -66,3 +66,14 @@ jobs:
           */target/*.iar
           */target/*-[0-9]*.jar
           *product/target/*.zip
+
+    - name: Archive test reports
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: test-reports
+        retention-days: 5
+        path: |
+          */target/testEngineOut.log
+          */target/selenide/*
+          */target/ivyEngine/deploy/*/*.deploymentLog
