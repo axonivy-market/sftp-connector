@@ -8,21 +8,27 @@ on:
       mvnArgs:
         type: string
         required: false
+      javaVersion:
+        type: number
+        default: 17
+      mvnVersion:
+        type: string
+        default: 3.6.3
   schedule:
     - cron: '21 21 * * *'
 
-
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup Java JDK
-      uses: actions/setup-java@v1.4.3
+      uses: actions/setup-java@v4
       with:
-        java-version: 17
+        java-version: ${{ inputs.javaVersion || '17' }}
+        distribution: temurin
 
     - name: Install and start SFTP
       run: |
@@ -37,18 +43,37 @@ jobs:
         echo "adding user to group ${sshGroup}"
         sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
 
+    - name: Setup Maven
+      uses: stCarolas/setup-maven@v5
+      with:
+        maven-version: ${{ inputs.mvnVersion || '3.6.3' }}
+
     - name: Build with Maven
-      run: mvn clean verify --batch-mode ${{ inputs.mvnArgs }}
+      run: mvn clean verify --batch-mode --fail-at-end ${{ inputs.mvnArgs }}
 
     - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
+      uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
       with:
-        files: "*/target/*-reports/TEST*.xml"
+        junit_files: |
+          */target/*-reports/*.xml
+          !*/target/*-reports/failsafe-summary.xml
 
-    - name: Archive build artifacts
-      uses: actions/upload-artifact@v2
+    - name: Archive build artifact
+      uses: actions/upload-artifact@v4
       with:
         path: |
           */target/*.iar
+          */target/*-[0-9]*.jar
           *product/target/*.zip
+
+    - name: Archive test reports
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: test-reports
+        retention-days: 5
+        path: |
+          */target/testEngineOut.log
+          */target/selenide/*
+          */target/ivyEngine/deploy/*/*.deploymentLog

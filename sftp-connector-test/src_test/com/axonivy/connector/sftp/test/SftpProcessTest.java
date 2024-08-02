@@ -34,7 +34,7 @@ import ch.ivyteam.ivy.scripting.objects.File;
  * <a href="https://developer.axonivy.com/doc/9.2/concepts/testing/process-testing.html">Process Testing docs</a>
  * </p>
  */
-@IvyProcessTest
+@IvyProcessTest(enableWebServer = true)
 public class SftpProcessTest {
 
 	private static final BpmProcess TEST_HELPER_PROCESS = BpmProcess.path("Sftp/SftpHelper");
