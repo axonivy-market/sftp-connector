@@ -58,11 +58,13 @@
             "}",
             "String username = ivy.var.variable(prefix+\"username\").value();",
             "String password = ivy.var.variable(prefix+\"password\").value();",
+            "String auth = ivy.var.get(prefix+\"auth\");",
+            "String ssh = ivy.var.get(prefix+\"secret_sshkey\");",
+            "String sshpassphrase = ivy.var.get(prefix+\"secret_sshpassphrase\");",
             "",
             "ivy.log.debug(\"The following settings will be used to connect to the SFTP server: hostname: {0}, port: {1}, username: {2}. Connection in progress...\", ",
             "  host, port, username);",
-            "",
-            "in.sftpClient = new SftpClientService(host, port, username, password);",
+            "in.sftpClient = new SftpClientService(host, port, username, auth, password, ssh, sshpassphrase);",
             "",
             "ivy.log.debug(\"Connection established.\");"
           ]
