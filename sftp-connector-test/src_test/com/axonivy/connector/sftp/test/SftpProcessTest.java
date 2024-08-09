@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +20,9 @@ import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.cm.ContentObjectValue;
+import ch.ivyteam.ivy.cm.IContentObject;
+import ch.ivyteam.ivy.environment.Ivy;
 import ch.ivyteam.ivy.scripting.objects.File;
 
 
@@ -125,4 +130,27 @@ public class SftpProcessTest {
 		assertThat(downloadedFile.getName()).isEqualTo(TEST_FILE_NAME);
 	}
 
+	@Test
+	@Order(6)
+	public void callOpenConnectionWithSSHKey(BpmClient bpmClient) throws Exception {
+		String prefix = "com_axonivy_connector_sftp_server_";
+		Ivy.var().set(prefix+"auth", "ssh");
+		Ivy.var().set(prefix+"password", "");
+		
+		ContentObjectValue  rsafile = Ivy.cm().findValue("/Files/rsa4096").resolve(Locale.ENGLISH).orElse(null);		
+		String keyString = rsafile.read().string();
+		Ivy.var().set(prefix+"secret_sshkey", keyString);
+		Ivy.var().set(prefix+"secret_sshpassphrase", "123456");
+		
+		BpmElement startable = TEST_HELPER_PROCESS.elementName("openConnection()");
+		
+		SubProcessCallResult result = bpmClient.start()
+			        .subProcess(startable)
+			        .execute() // Callable sub process input arguments 
+			        .subResult();
+		
+		SftpClientService sftpClient = result.param("sftpClient", SftpClientService.class);
+		assertThat(sftpClient).isNotNull();
+		sftpClient.close();
+	}
 }

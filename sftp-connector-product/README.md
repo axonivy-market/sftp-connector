@@ -53,6 +53,8 @@ Before starting the demo, please make sure to have an SSH/SFTP server on your co
 1. Open the following settings in “RebexTinySftpServer.exe.config” with a text editor and update the following values:
    ![RebexTinySftpServer.exe.config](images/RebexTinySftpServer.exe.config.png)
 
+   \* In order to test the connector with SSH key pair, put the public key file to folder `c:/sshkey`. 
+
 2. Open the `configuration/variables.yaml` in your Designer and update the following global variables:
 
    ```
@@ -62,7 +64,10 @@ Before starting the demo, please make sure to have an SSH/SFTP server on your co
      com.axonivy.connector.sftp.server:
        # The host name to the SFTP server
        host: 'localhost'
-
+       
+       # Auth type to the SFPT server: password OR ssh
+       auth: 'password'
+       
        # The password to the SFTP server
        password: pwd
 
@@ -74,7 +79,38 @@ Before starting the demo, please make sure to have an SSH/SFTP server on your co
 
    ```
 
-4. Save the changed settings.
+   Or in order to enable the connector with SSH keypair, update following global variables:
+   ```
+   
+   Variables:
+
+     com.axonivy.connector.sftp.server:
+       # The host name to the SFTP server
+       host: 'localhost'
+       
+       # Auth type to the SFPT server: password OR ssh
+       auth: 'ssh'
+       
+       # The password to the SFTP server
+       password: ''
+
+       # The port number to the SFTP server
+       port: 22
+
+       # The username to the SFTP server
+       username: 'usr'
+       
+       # The ssh key string to SFTP server
+       # [secret private key]
+       secret_sshkey: |
+         YOUR PRIVATE KEY CONTENT HERE
+
+       # The ssh key passphrase
+       secret_sshpassphrase: 'Your ssh key passphrase'
+   ```
+   \* the private key is in pair of the public key put in step 1
+
+3. Save the changed settings.
 
 
 ### Prerequisites:
