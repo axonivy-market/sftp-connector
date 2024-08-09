@@ -33,16 +33,29 @@ jobs:
     - name: Install and start SFTP
       run: |
         sudo apt install openssh-server
+        sudo sh -c 'echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config'
+        sudo sh -c 'echo "PasswordAuthentication no" >> /etc/ssh/sshd_config'
         sudo systemctl enable ssh
         sudo systemctl start ssh
-
+        
     - name: Create a test user account
       run: |
         sshGroupRaw=$(getent group | grep ssh)
         sshGroup=${sshGroupRaw%:x*}
         echo "adding user to group ${sshGroup}"
         sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
+        
+        ssh-keygen -t rsa -b 4096 -N "123456" -f ~/.ssh/sftptest
+        chmod -R 700 ~/.ssh/sftptest
+        chmod 600 ~/.ssh/sftptest.pub
 
+        sudo -u usr mkdir /home/usr/.ssh/
+        sudo cat ~/.ssh/sftptest.pub >> /home/usr/.ssh/authorized_keys
+        sudo chown -R usr:${sshGroup} /home/usr/.ssh
+        sudo chmod -R 700 /home/usr/.ssh
+        sudo chmod 664 /home/usr/.ssh/authorized_keys
+        cp ~/.ssh/sftptest ${GITHUB_WORKSPACE}/sftp-connector-test/src_test/com/axonivy/connector/sftp/test/sftptest
+        
     - name: Setup Maven
       uses: stCarolas/setup-maven@v5
       with:

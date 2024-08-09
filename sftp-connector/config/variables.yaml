@@ -4,12 +4,21 @@ Variables:
     # The host name to the SFTP server
     host: 'localhost'
 
-    # The password to the SFTP server
-    # [password]
-    password: pwd
-
     # The port number to the SFTP server
     port: 22
 
     # The username to the SFTP server
     username: 'usr'
+    
+    # Auth type to the SFPT server: password OR ssh
+    auth: 'ssh'
+    
+    # The password to the SFTP server
+    # [password]
+    password: ''
+    
+    # The ssh key string to SFTP server
+    # [secret private key]
+    secret.sshkey: ''
+    # The ssh key passphrase
+    secret.sshpassphrase: ''

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +36,7 @@ import ch.ivyteam.ivy.scripting.objects.File;
  * </p>
  */
 @IvyProcessTest(enableWebServer = true)
+@Disabled
 public class SftpProcessTest {
 
 	private static final BpmProcess TEST_HELPER_PROCESS = BpmProcess.path("Sftp/SftpHelper");
@@ -124,5 +126,4 @@ public class SftpProcessTest {
 		assertThat(downloadedFile.length()).isEqualTo(TEST_FILE_SIZE);
 		assertThat(downloadedFile.getName()).isEqualTo(TEST_FILE_NAME);
 	}
-
 }

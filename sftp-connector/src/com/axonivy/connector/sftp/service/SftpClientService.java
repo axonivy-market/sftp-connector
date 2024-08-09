@@ -8,7 +8,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.jcraft.jsch.ChannelSftp;
@@ -28,6 +30,7 @@ public class SftpClientService implements AutoCloseable {
 	private static final String PATHSEPARATOR = "/";
 	private static final int SESSION_TIMEOUT = 10000;
 	private static final int CHANNEL_TIMEOUT = 5000;
+	private static final String PASSWORD = "password";
 	
 	
 	/**
@@ -44,17 +47,25 @@ public class SftpClientService implements AutoCloseable {
 	 * Instantiates the SftpClientService object with given the host, port, username and password.
 	 * 
 	 * @param host the host name
+	 * @param authType authentication type: password, ssh
 	 * @param port the port number
 	 * @param username the user name
 	 * @param password the password
+	 * @param keyString the ssh key string
+	 * @param passphrase the ssh passphrase
 	 * @throws IOException
 	 */
-	public SftpClientService(String host, int port, String username, String password) throws IOException {
+	public SftpClientService(String host, int port, String username, String authType, String password, String keyString, String passphrase) throws IOException {
 		try {
 			JSch jsch = new JSch();
 			
 			session = jsch.getSession(username, host, port);
-			session.setPassword(password);
+			if (StringUtils.isEmpty(authType) || PASSWORD.equalsIgnoreCase(authType)) {
+				session.setPassword(password);
+			} else {
+				session.setConfig("PreferredAuthentications", "publickey");
+				jsch.addIdentity(null, keyString.getBytes(), null, passphrase.getBytes());
+			}
 			
 			session.setConfig("StrictHostKeyChecking", "no");
 			// 10 seconds session timeout
