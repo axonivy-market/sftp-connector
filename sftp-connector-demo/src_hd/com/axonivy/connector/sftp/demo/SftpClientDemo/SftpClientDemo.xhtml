@@ -31,7 +31,7 @@
 							<p:outputLabel for="fileUpload" value="File to Upload"/>
 							<p:fileUpload id="fileUpload" mode="advanced" skinSimple="true" 
 									auto="true" update="@form" process="@form" 
-									fileUploadListener="#{logic.handleFileUpload}" />
+									listener="#{logic.handleFileUpload}" />
 						</h:panelGrid>
 					</h:form>
 				</p:tab>

@@ -31,10 +31,13 @@
       "config" : {
         "output" : {
           "code" : [
-            "String prefix = \"com_axonivy_connector_sftp_server_\";",
-            "in.clientHost = ivy.var.variable(prefix+\"host\").value();",
-            "in.clientPort = Integer.parseInt(ivy.var.variable(prefix+\"port\").value());",
-            "in.clientUsername = ivy.var.variable(prefix+\"username\").value();"
+            "import com.axonivy.connector.sftp.service.SftpClientService;",
+            "import com.axonivy.connector.sftp.demo.Constants;",
+            "",
+            "in.sftpName = new String(Constants.DUMMY);",
+            "in.clientHost = SftpClientService.getClientHost(in.sftpName);",
+            "in.clientPort = Integer.parseInt(SftpClientService.getPort(in.sftpName));",
+            "in.clientUsername = SftpClientService.getUsername(in.sftpName);"
           ]
         }
       },
@@ -77,19 +80,22 @@
       "type" : "SubProcessCall",
       "name" : "Sftp/SftpUploadFile",
       "config" : {
-        "processCall" : "Sftp/SftpUploadFile:uploadFile(java.io.InputStream,String)",
+        "processCall" : "Sftp/SftpUploadFile:uploadFile(String,java.io.InputStream,String)",
         "output" : {
           "map" : {
             "out" : "in",
-            "out.isFileUploaded" : "result.isSuccess"
+            "out.isFileUploaded" : "result.isSuccess",
+            "out.sftpName" : "in.sftpName"
           }
         },
         "call" : {
           "params" : [
+            { "name" : "sftpName", "type" : "String" },
             { "name" : "fileToBeUploaded", "type" : "java.io.InputStream" },
             { "name" : "fileName", "type" : "String" }
           ],
           "map" : {
+            "param.sftpName" : "in.sftpName",
             "param.fileToBeUploaded" : "in.uploadedFile.getInputStream()",
             "param.fileName" : "in.uploadedFile.getFileName()"
           }
@@ -111,7 +117,7 @@
       "type" : "SubProcessCall",
       "name" : "Sftp/SftpDownloadFile",
       "config" : {
-        "processCall" : "Sftp/SftpDownloadFile:downloadFile(String)",
+        "processCall" : "Sftp/SftpDownloadFile:downloadFile(String,String)",
         "output" : {
           "map" : {
             "out" : "in",
@@ -120,9 +126,11 @@
         },
         "call" : {
           "params" : [
+            { "name" : "sftpName", "type" : "String" },
             { "name" : "remoteFileName", "type" : "String" }
           ],
           "map" : {
+            "param.sftpName" : "in.sftpName",
             "param.remoteFileName" : "in.fileToDownload.name"
           }
         }
@@ -191,7 +199,7 @@
       "type" : "SubProcessCall",
       "name" : "call list All Files",
       "config" : {
-        "processCall" : "Sftp/SftpDownloadFile:listAllFiles(String)",
+        "processCall" : "Sftp/SftpDownloadFile:listAllFiles(String,String)",
         "output" : {
           "map" : {
             "out" : "in",
@@ -200,9 +208,11 @@
         },
         "call" : {
           "params" : [
+            { "name" : "sftpName", "type" : "String" },
             { "name" : "remoteDirectory", "type" : "String" }
           ],
           "map" : {
+            "param.sftpName" : "in.sftpName",
             "param.remoteDirectory" : "\".\""
           }
         }
