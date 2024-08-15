@@ -3,7 +3,7 @@ Axon Ivy's **SFTP Konnektor** unterstützt dich dabei, Prozessautomatisierung zu
 Dieser Konnektor:
 
 - verwendet das SFTP-Protokoll
-- basiert auf JSch zur Handhabung der SFTP-Verbindungen und -Operationen
+- basiert auf [JSch](http://www.jcraft.com/jsch/) zur Handhabung der SFTP-Verbindungen und -Operationen
 - ist eine Java-Implementierung von SSH2
 - ermöglicht es dir, eine Verbindung zu einem sshd-Server herzustellen und Port-Weiterleitung, X11-Weiterleitung, Dateitransfer usw. zu nutzen
 - macht es einfach, sicheren Dateitransfer in deine Arbeitsabläufe zu integrieren
