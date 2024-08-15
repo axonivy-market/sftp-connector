@@ -1,4 +1,4 @@
-Axon Ivy's **SFTP Konnektor** unterstützt dich dabei, Prozessautomatisierung zu beschleunigen, indem er sicheren Dateitransfer in deine Arbeitsabläufe integriert. Mit diesem SFTP-Client kannst du einfach und sicher Dateien zu einem Remote-Computer übertragen und von dort empfangen. 
+Axon Ivy's **SFTP Konnektor** unterstützt dich dabei, sicheren Dateitransfer in deine Arbeitsabläufe integriert. Mit diesem SFTP-Client kannst du einfach und sicher Dateien zu einem Remote-Computer übertragen und von dort empfangen. 
 
 Dieser Konnektor:
 
