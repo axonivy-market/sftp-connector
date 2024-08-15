@@ -54,7 +54,7 @@ public class SftpProcessSSHTest {
 	
 	@BeforeAll
 	public static void init() throws Exception {
-		
+		Ivy.var().set(PREFIX+TEST_SFTP_NAME_VAR+"username", "usr2ssh");
 		Ivy.var().set(PREFIX+TEST_SFTP_NAME_VAR+"auth", "ssh");
 		Ivy.var().set(PREFIX+TEST_SFTP_NAME_VAR+"password", "");
 		
