@@ -41,7 +41,7 @@ public class SftpProcessTest {
 	private static final BpmProcess TEST_UPLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpUploadFile");
 	private static final BpmProcess TEST_DOWNLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpDownloadFile");
 
-	private static final String TEST_SFTP_NAME = "dummy";
+	private static final String TEST_SFTP_SERVER_NAME = "dummy";
 	private static final String TEST_FILE_NAME = "market_market_connector_sftp.pdf";
 	private static final long TEST_FILE_SIZE = 207569L;
 	
@@ -53,7 +53,7 @@ public class SftpProcessTest {
 		
 		SubProcessCallResult result = bpmClient.start()
 			        .subProcess(startable)
-			        .execute(TEST_SFTP_NAME) // Callable sub process input arguments 
+			        .execute(TEST_SFTP_SERVER_NAME) // Callable sub process input arguments 
 			        .subResult();
 		
 		SftpClientService sftpClient = result.param("sftpClient", SftpClientService.class);
@@ -70,7 +70,7 @@ public class SftpProcessTest {
 		
 		SubProcessCallResult result = bpmClient.start()
 			        .subProcess(startable)
-			        .execute(TEST_SFTP_NAME, fileToBeUploaded, TEST_FILE_NAME) // Callable sub process input arguments 
+			        .execute(TEST_SFTP_SERVER_NAME, fileToBeUploaded, TEST_FILE_NAME) // Callable sub process input arguments 
 			        .subResult();
 		
 		Boolean isSuccess = result.param("isSuccess", Boolean.class);
@@ -91,7 +91,7 @@ public class SftpProcessTest {
 		
 		SubProcessCallResult result = bpmClient.start()
 			        .subProcess(startable)
-			        .execute(TEST_SFTP_NAME, ivyFile) // Callable sub process input arguments 
+			        .execute(TEST_SFTP_SERVER_NAME, ivyFile) // Callable sub process input arguments 
 			        .subResult();
 		
 		Boolean isSuccess = result.param("isSuccess", Boolean.class);
@@ -105,7 +105,7 @@ public class SftpProcessTest {
 		
 		SubProcessCallResult result = bpmClient.start()
 			        .subProcess(startable)
-			        .execute(TEST_SFTP_NAME, ".") // Callable sub process input arguments 
+			        .execute(TEST_SFTP_SERVER_NAME, ".") // Callable sub process input arguments 
 			        .subResult();
 		List<FileData> listFiles = result.param("listFiles", List.class);
 		assertThat(listFiles.size()).isGreaterThanOrEqualTo(1);
@@ -119,7 +119,7 @@ public class SftpProcessTest {
 		
 		SubProcessCallResult result = bpmClient.start()
 			        .subProcess(startable)
-			        .execute(TEST_SFTP_NAME, TEST_FILE_NAME) // Callable sub process input arguments 
+			        .execute(TEST_SFTP_SERVER_NAME, TEST_FILE_NAME) // Callable sub process input arguments 
 			        .subResult();
 		java.io.File downloadedFile = result.param("toFile", java.io.File.class);
 		assertThat(downloadedFile.length()).isEqualTo(TEST_FILE_SIZE);

@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import ch.ivyteam.log.Logger;
@@ -19,9 +18,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
-
 import ch.ivyteam.ivy.environment.Ivy;
 
+import static com.axonivy.connector.sftp.enums.AuthMethod.PASSWORD;
 /**
  * Service class for file transfer to/from the SFTP server. The service class is
  * used to decouple the SFTP implementation.
@@ -41,7 +40,6 @@ public class SftpClientService implements AutoCloseable {
 	private static final String AUTH_VAR = "auth";
 	private static final String PASSWORD_VAR = "password";
 	private static final String USERNAME_VAR = "username";
-	private static final String PASSWORD = "password";
 
 	/**
 	 * A Session represents a connection to an SSH server.
@@ -79,7 +77,7 @@ public class SftpClientService implements AutoCloseable {
 			JSch jsch = new JSch();
 
 			session = jsch.getSession(username, host, port);
-			if (StringUtils.isEmpty(auth) || PASSWORD.equalsIgnoreCase(auth)) {
+			if (StringUtils.isEmpty(auth) || PASSWORD.name().equalsIgnoreCase(auth)) {
 				session.setPassword(password);
 			} else {
 				session.setConfig("PreferredAuthentications", "publickey");

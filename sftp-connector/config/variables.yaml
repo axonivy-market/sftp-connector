@@ -11,7 +11,8 @@ Variables:
       # The username to the SFTP server
       username: 'usr'
       
-      # Auth type to the SFPT server: password OR ssh
+      # Auth type to the SFPT server
+      # [enum: password, ssh]
       auth: 'password'
       
       # The password to the SFTP server
