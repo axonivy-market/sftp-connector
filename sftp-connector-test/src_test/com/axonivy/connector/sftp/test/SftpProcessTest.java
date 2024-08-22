@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,6 @@ import com.axonivy.connector.sftp.service.SftpClientService.FileData;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
-import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
 import ch.ivyteam.ivy.scripting.objects.File;
@@ -35,17 +35,13 @@ import ch.ivyteam.ivy.scripting.objects.File;
  * </p>
  */
 @IvyProcessTest(enableWebServer = true)
-public class SftpProcessTest {
-
-	private static final BpmProcess TEST_HELPER_PROCESS = BpmProcess.path("Sftp/SftpHelper");
-	private static final BpmProcess TEST_UPLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpUploadFile");
-	private static final BpmProcess TEST_DOWNLOAD_FILE_PROCESS = BpmProcess.path("Sftp/SftpDownloadFile");
-
-	private static final String TEST_SFTP_SERVER_NAME = "dummy";
-	private static final String TEST_FILE_NAME = "market_market_connector_sftp.pdf";
-	private static final long TEST_FILE_SIZE = 207569L;
+public class SftpProcessTest extends BaseTest {
 	
-
+	@BeforeEach
+	public void preInit() throws Exception {
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
+	}
+	
 	@Test
 	@Order(1)
 	public void callOpenConnection(BpmClient bpmClient) {

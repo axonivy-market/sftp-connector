@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +37,8 @@ public class SftpClientService implements AutoCloseable {
 	private static final String SFTP_VAR = "com.axonivy.connector.sftp.server";
 	private static final String HOST_VAR = "host";
 	private static final String PORT_VAR = "port";
-	private static final String SECRET_SSHPASSPHRASE_VAR = "secret.sshpassphrase";
-	private static final String SECRET_SSHKEY_VAR = "secret.sshkey";
+	private static final String SECRET_SSHPASSPHRASE_VAR = "sshPassphraseSecret";
+	private static final String SSHKEY_FILEPATH_VAR = "sshkeyFilePath";
 	private static final String AUTH_VAR = "auth";
 	private static final String PASSWORD_VAR = "password";
 	private static final String USERNAME_VAR = "username";
@@ -61,7 +63,7 @@ public class SftpClientService implements AutoCloseable {
 		String username = getUsername(sftpName);
 		String password = getVar(sftpName, PASSWORD_VAR);
 		String auth = getVar(sftpName, AUTH_VAR);
-		String secretSSHkey = getVar(sftpName, SECRET_SSHKEY_VAR);
+		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
 
 		int port = 22;
@@ -80,8 +82,9 @@ public class SftpClientService implements AutoCloseable {
 			if (StringUtils.isEmpty(auth) || PASSWORD.name().equalsIgnoreCase(auth)) {
 				session.setPassword(password);
 			} else {
+				byte[] sshKeyBytes = Files.readAllBytes(Paths.get(sshKeyFilePath));
 				session.setConfig("PreferredAuthentications", "publickey");
-				jsch.addIdentity(null, secretSSHkey.getBytes(), null, secretSSHpassphrase.getBytes());
+				jsch.addIdentity(null, sshKeyBytes, null, secretSSHpassphrase.getBytes());
 			}
 			session.setConfig("StrictHostKeyChecking", "no");
 			// 10 seconds session timeout
