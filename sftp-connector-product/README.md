@@ -102,13 +102,11 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
          # The username to the SFTP server
          username: 'usr'
        
-         # The ssh key string to SFTP server
-         # [secret private key]
-         secret.sshkey: |
-           YOUR PRIVATE KEY CONTENT HERE
-
+         # The path of ssh key file to SFTP server
+         sshkeyFilePath: 'path/to/file'
+  
          # The ssh key passphrase
-         secret.sshpassphrase: 'Your ssh key passphrase'
+         sshPassphraseSecret: 'Your ssh key passphrase'
    ```
    \* the private key is in pair of the public key put in step 1
 
