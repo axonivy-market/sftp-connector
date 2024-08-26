@@ -1,3 +1,4 @@
 SftpHelperData #class
 com.axonivy.connector.sftp #namespace
+sftpName String #field
 sftpClient com.axonivy.connector.sftp.service.SftpClientService #field

@@ -8,15 +8,17 @@
   "elements" : [ {
       "id" : "f0",
       "type" : "CallSubStart",
-      "name" : "uploadFile(InputStream,String)",
+      "name" : "uploadFile(String,InputStream,String)",
       "config" : {
         "callSignature" : "uploadFile",
         "input" : {
           "params" : [
+            { "name" : "sftpName", "type" : "String" },
             { "name" : "fileToBeUploaded", "type" : "java.io.InputStream" },
             { "name" : "fileName", "type" : "String" }
           ],
           "map" : {
+            "out.sftpName" : "param.sftpName",
             "out.fileName" : "param.fileName",
             "out.fileToBeUploaded" : "param.fileToBeUploaded"
           }
@@ -85,11 +87,19 @@
       "type" : "SubProcessCall",
       "name" : "Connect",
       "config" : {
-        "processCall" : "Sftp/SftpHelper:openConnection()",
+        "processCall" : "Sftp/SftpHelper:openConnection(String)",
         "output" : {
           "map" : {
             "out" : "in",
             "out.sftpClient" : "result.#sftpClient"
+          }
+        },
+        "call" : {
+          "params" : [
+            { "name" : "sftpName", "type" : "String" }
+          ],
+          "map" : {
+            "param.sftpName" : "in.sftpName"
           }
         }
       },
@@ -111,14 +121,16 @@
     }, {
       "id" : "f12",
       "type" : "CallSubStart",
-      "name" : "uploadFile(File)",
+      "name" : "uploadFile(String,File)",
       "config" : {
         "callSignature" : "uploadFile",
         "input" : {
           "params" : [
+            { "name" : "sftpName", "type" : "String" },
             { "name" : "file", "type" : "File" }
           ],
           "map" : {
+            "out.sftpName" : "param.sftpName",
             "out.ivyFile" : "param.file"
           }
         },
@@ -149,11 +161,19 @@
       "type" : "SubProcessCall",
       "name" : "Connect",
       "config" : {
-        "processCall" : "Sftp/SftpHelper:openConnection()",
+        "processCall" : "Sftp/SftpHelper:openConnection(String)",
         "output" : {
           "map" : {
             "out" : "in",
             "out.sftpClient" : "result.#sftpClient"
+          }
+        },
+        "call" : {
+          "params" : [
+            { "name" : "sftpName", "type" : "String" }
+          ],
+          "map" : {
+            "param.sftpName" : "in.sftpName"
           }
         }
       },
