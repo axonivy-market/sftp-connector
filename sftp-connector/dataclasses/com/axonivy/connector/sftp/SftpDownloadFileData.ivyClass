@@ -5,3 +5,4 @@ toFile File #field
 remoteDirectory String #field
 listFiles java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData> #field
 sftpClient com.axonivy.connector.sftp.service.SftpClientService #field
+sftpName String #field

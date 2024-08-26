@@ -33,15 +33,36 @@ jobs:
     - name: Install and start SFTP
       run: |
         sudo apt install openssh-server
+        sudo sh -c 'echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config'
+        sudo sh -c 'echo "PasswordAuthentication no" >> /etc/ssh/sshd_config'
+        sudo sh -c 'echo "\nMatch User usr" >> /etc/ssh/sshd_config'
+        sudo sh -c 'echo "\tPasswordAuthentication yes" >> /etc/ssh/sshd_config'
+        sudo sh -c 'echo "\nMatch User All" >> /etc/ssh/sshd_config'
+        sudo sh -c 'echo "\tPasswordAuthentication no" >> /etc/ssh/sshd_config'
         sudo systemctl enable ssh
         sudo systemctl start ssh
-
+        
     - name: Create a test user account
       run: |
         sshGroupRaw=$(getent group | grep ssh)
         sshGroup=${sshGroupRaw%:x*}
         echo "adding user to group ${sshGroup}"
         sudo useradd -s /bin/bash -d /home/usr -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr
+
+        echo "adding user2ssh to group ${sshGroup}"
+        sudo useradd -s /bin/bash -d /home/usr2ssh -m -g ${sshGroup} -p $(echo pwd | openssl passwd -1 -stdin) usr2ssh
+        
+        ssh-keygen -t rsa -b 4096 -N "123456" -f ~/.ssh/sftptest
+        chmod -R 700 ~/.ssh/sftptest
+        chmod 600 ~/.ssh/sftptest.pub
+
+        sudo -u usr2ssh mkdir /home/usr2ssh/.ssh/
+        sudo cat ~/.ssh/sftptest.pub >> /home/usr2ssh/.ssh/authorized_keys
+        sudo chown -R usr2ssh:${sshGroup} /home/usr2ssh/.ssh
+        sudo chmod go-w /home/usr2ssh
+        sudo chmod -R 700 /home/usr2ssh/.ssh
+        sudo chmod 600 /home/usr2ssh/.ssh/authorized_keys
+        cp ~/.ssh/sftptest ${GITHUB_WORKSPACE}/sftp-connector-test/src_test/com/axonivy/connector/sftp/test/sftptest
 
     - name: Setup Maven
       uses: stCarolas/setup-maven@v5
@@ -50,7 +71,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode --fail-at-end ${{ inputs.mvnArgs }}
-
+        
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
@@ -58,7 +79,7 @@ jobs:
         junit_files: |
           */target/*-reports/*.xml
           !*/target/*-reports/failsafe-summary.xml
-
+    
     - name: Archive build artifact
       uses: actions/upload-artifact@v4
       with:
