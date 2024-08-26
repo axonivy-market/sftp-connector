@@ -1,15 +1,26 @@
 Variables:
 
   com.axonivy.connector.sftp.server:
-    # The host name to the SFTP server
-    host: 'localhost'
-
-    # The password to the SFTP server
-    # [password]
-    password: pwd
-
-    # The port number to the SFTP server
-    port: 22
-
-    # The username to the SFTP server
-    username: 'usr'
+    dummy:
+      # The host name to the SFTP server
+      host: ''
+      
+      # The port number to the SFTP server
+      port: 22
+  
+      # The username to the SFTP server
+      username: ''
+      
+      # Auth type to the SFPT server
+      # [enum: password, ssh]
+      auth: 'password'
+      
+      # The password to the SFTP server
+      # [password]
+      password: ''
+      
+      # The path of ssh key file to SFTP server
+      sshkeyFilePath: ''
+  
+      # The ssh key passphrase
+      sshPassphraseSecret: ''

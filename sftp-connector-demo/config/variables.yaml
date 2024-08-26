@@ -5,4 +5,27 @@
 # please add a 'variables.yaml' in the sub directory '_<environment>'.
 #
 Variables:
-  #myVariable: value
+  com.axonivy.connector.sftp.server:
+    dummy:
+      # The host name to the SFTP server
+      host: 'localhost'
+      
+      # The port number to the SFTP server
+      port: 22
+  
+      # The username to the SFTP server
+      username: 'usr'
+      
+      # Auth type to the SFPT server
+      # [enum: password, ssh]
+      auth: 'ssh'
+      
+      # The password to the SFTP server
+      # [password]
+      password: ''
+      
+      # The path of ssh key file to SFTP server
+      sshkeyFilePath: 'C:\NonInstall\RebexTinySftpServer-Binaries-Latest\sshkeyBK\rsa4096new'
+  
+      # The ssh key passphrase
+      sshPassphraseSecret: '123456'

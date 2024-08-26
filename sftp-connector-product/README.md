@@ -53,28 +53,64 @@ Before starting the demo, please make sure to have an SSH/SFTP server on your co
 1. Open the following settings in “RebexTinySftpServer.exe.config” with a text editor and update the following values:
    ![RebexTinySftpServer.exe.config](images/RebexTinySftpServer.exe.config.png)
 
-2. Open the `configuration/variables.yaml` in your Designer and update the following global variables:
+   \* In order to test the connector with SSH key pair, put the public key file to folder `c:/sshkey`. 
 
+2. Configure one or more SFTP connectors in global variables. A SFTP connector is identified by a name and a global variable section containing access information. The following example shows connection information for a SFTP connector that should be accessible under the name local-rebex.
+Put this variable block into your project. At least `host`, `auth`, `username` and `password` must be defined.
    ```
    
    Variables:
 
      com.axonivy.connector.sftp.server:
-       # The host name to the SFTP server
-       host: 'localhost'
+       local-rebex:
+         # The host name to the SFTP server
+         host: 'localhost'
+       
+         # Auth type to the SFPT server: password OR ssh
+         auth: 'password'
+       
+         # The password to the SFTP server
+         password: pwd
 
-       # The password to the SFTP server
-       password: pwd
+         # The port number to the SFTP server
+         port: 22
 
-       # The port number to the SFTP server
-       port: 22
-
-       # The username to the SFTP server
-       username: 'usr'
+         # The username to the SFTP server
+         username: 'usr'
 
    ```
 
-4. Save the changed settings.
+   Or in order to enable the connector with SSH keypair, `secret.sshkey` and `secret.sshpassphrase` must be defined:
+   ```
+   
+   Variables:
+
+     com.axonivy.connector.sftp.server:
+       local-rebex:
+         # The host name to the SFTP server
+         host: 'localhost'
+       
+         # Auth type to the SFPT server: password OR ssh
+         auth: 'ssh'
+       
+         # The password to the SFTP server
+         password: ''
+
+         # The port number to the SFTP server
+         port: 22
+
+         # The username to the SFTP server
+         username: 'usr'
+       
+         # The path of ssh key file to SFTP server
+         sshkeyFilePath: 'path/to/file'
+  
+         # The ssh key passphrase
+         sshPassphraseSecret: 'Your ssh key passphrase'
+   ```
+   \* the private key is in pair of the public key put in step 1
+
+3. Save the changed settings.
 
 
 ### Prerequisites:
