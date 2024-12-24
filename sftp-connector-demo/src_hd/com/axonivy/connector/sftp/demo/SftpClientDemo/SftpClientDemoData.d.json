@@ -21,31 +21,26 @@
     "modifiers" : [ "PERSISTENT" ]
   }, {
     "name" : "fileToDownload",
-    "type" : "com.axonivy.connector.sftp.service.SftpClientService.FileData",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "com.axonivy.connector.sftp.service.SftpClientService.FileData"
   }, {
     "name" : "isFileUploaded",
     "type" : "Boolean",
     "modifiers" : [ "PERSISTENT" ]
   }, {
     "name" : "listRemoteFiles",
-    "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>"
   }, {
     "name" : "remoteFileName",
     "type" : "String",
     "modifiers" : [ "PERSISTENT" ]
   }, {
     "name" : "streamedContent",
-    "type" : "org.primefaces.model.StreamedContent",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "org.primefaces.model.StreamedContent"
   }, {
     "name" : "toFile",
-    "type" : "java.io.File",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "java.io.File"
   }, {
     "name" : "uploadedFile",
-    "type" : "org.primefaces.model.file.UploadedFile",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "org.primefaces.model.file.UploadedFile"
   } ]
 }
