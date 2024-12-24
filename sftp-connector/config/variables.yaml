@@ -1,26 +1,30 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/12.0.0/variables.json
 Variables:
-
-  com.axonivy.connector.sftp.server:
-    dummy:
-      # The host name to the SFTP server
-      host: ''
-      
-      # The port number to the SFTP server
-      port: 22
-  
-      # The username to the SFTP server
-      username: ''
-      
-      # Auth type to the SFPT server
-      # [enum: password, ssh]
-      auth: 'password'
-      
-      # The password to the SFTP server
-      # [password]
-      password: ''
-      
-      # The path of ssh key file to SFTP server
-      sshkeyFilePath: ''
-  
-      # The ssh key passphrase
-      sshPassphraseSecret: ''
+  com:
+    axonivy:
+      connector:
+        sftp:
+          server:
+            dummy:
+              # The host name to the SFTP server
+              host: ''
+              
+              # The port number to the SFTP server
+              port: 22
+              
+              # The username to the SFTP server
+              username: ''
+              
+              # Auth type to the SFPT server
+              # [enum: password, ssh]
+              auth: 'password'
+              
+              # The password to the SFTP server
+              # [password]
+              password: ''
+              
+              # The path of ssh key file to SFTP server
+              sshkeyFilePath: ''
+              
+              # The ssh key passphrase
+              sshPassphraseSecret: ''
