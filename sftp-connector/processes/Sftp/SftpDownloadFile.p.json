@@ -1,5 +1,5 @@
 {
-  "format" : "10.0.0",
+  "$schema" : "https://json-schema.axonivy.com/process/12.0.0/process.json",
   "id" : "17A24807C6359438",
   "kind" : "CALLABLE_SUB",
   "config" : {
@@ -10,11 +10,11 @@
       "type" : "CallSubStart",
       "name" : "downloadFile(String,String)",
       "config" : {
-        "callSignature" : "downloadFile",
+        "signature" : "downloadFile",
         "input" : {
           "params" : [
-            { "name" : "sftpName", "type" : "String" },
-            { "name" : "remoteFileName", "type" : "String" }
+            { "name" : "sftpName", "type" : "String", "desc" : "" },
+            { "name" : "remoteFileName", "type" : "String", "desc" : "" }
           ],
           "map" : {
             "out.remoteFileName" : "param.remoteFileName",
@@ -23,20 +23,24 @@
         },
         "result" : {
           "params" : [
-            { "name" : "toFile", "type" : "java.io.File" }
+            { "name" : "toFile", "type" : "java.io.File", "desc" : "" }
           ],
           "map" : {
             "result.toFile" : "in.#toFile.getJavaFile()"
           }
-        },
-        "tags" : "CONNECTOR"
+        }
       },
+      "tags" : [
+        "CONNECTOR"
+      ],
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
         "labelOffset" : { "x" : 27, "y" : 40 },
         "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png?small"
       },
-      "connect" : { "id" : "f20", "to" : "f19" }
+      "connect" : [
+        { "id" : "f20", "to" : "f19" }
+      ]
     }, {
       "id" : "f1",
       "type" : "CallSubEnd",
@@ -98,19 +102,23 @@
           "visual" : {
             "at" : { "x" : 512, "y" : 96 }
           },
-          "connect" : { "id" : "f6", "to" : "f1", "via" : [ { "x" : 512, "y" : 128 }, { "x" : 576, "y" : 128 } ] }
+          "connect" : [
+            { "id" : "f6", "to" : "f1", "via" : [ { "x" : 512, "y" : 128 }, { "x" : 576, "y" : 128 } ] }
+          ]
         } ],
-      "connect" : { "id" : "f2", "to" : "f1" }
+      "connect" : [
+        { "id" : "f2", "to" : "f1" }
+      ]
     }, {
       "id" : "f7",
       "type" : "CallSubStart",
       "name" : "listAllFiles(String,String)",
       "config" : {
-        "callSignature" : "listAllFiles",
+        "signature" : "listAllFiles",
         "input" : {
           "params" : [
-            { "name" : "sftpName", "type" : "String" },
-            { "name" : "remoteDirectory", "type" : "String" }
+            { "name" : "sftpName", "type" : "String", "desc" : "" },
+            { "name" : "remoteDirectory", "type" : "String", "desc" : "" }
           ],
           "map" : {
             "out.sftpName" : "param.sftpName",
@@ -119,20 +127,24 @@
         },
         "result" : {
           "params" : [
-            { "name" : "listFiles", "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>" }
+            { "name" : "listFiles", "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>", "desc" : "" }
           ],
           "map" : {
             "result.listFiles" : "in.listFiles"
           }
-        },
-        "tags" : "CONNECTOR"
+        }
       },
+      "tags" : [
+        "CONNECTOR"
+      ],
       "visual" : {
         "at" : { "x" : 96, "y" : 256 },
         "labelOffset" : { "x" : 23, "y" : 38 },
         "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png?small"
       },
-      "connect" : { "id" : "f27", "to" : "f26" }
+      "connect" : [
+        { "id" : "f27", "to" : "f26" }
+      ]
     }, {
       "id" : "f8",
       "type" : "CallSubEnd",
@@ -171,27 +183,28 @@
           "visual" : {
             "at" : { "x" : 512, "y" : 288 }
           },
-          "connect" : { "id" : "f13", "to" : "f8", "via" : [ { "x" : 512, "y" : 320 }, { "x" : 576, "y" : 320 } ] }
+          "connect" : [
+            { "id" : "f13", "to" : "f8", "via" : [ { "x" : 512, "y" : 320 }, { "x" : 576, "y" : 320 } ] }
+          ]
         } ],
-      "connect" : { "id" : "f11", "to" : "f8" }
+      "connect" : [
+        { "id" : "f11", "to" : "f8" }
+      ]
     }, {
       "id" : "f19",
       "type" : "SubProcessCall",
       "name" : "Connect",
       "config" : {
         "processCall" : "Sftp/SftpHelper:openConnection(String)",
+        "call" : {
+          "map" : {
+            "param.sftpName" : "in.sftpName"
+          }
+        },
         "output" : {
           "map" : {
             "out" : "in",
             "out.sftpClient" : "result.#sftpClient"
-          }
-        },
-        "call" : {
-          "params" : [
-            { "name" : "sftpName", "type" : "String" }
-          ],
-          "map" : {
-            "param.sftpName" : "in.sftpName"
           }
         }
       },
@@ -199,15 +212,22 @@
         "at" : { "x" : 224, "y" : 64 },
         "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
       },
-      "connect" : { "id" : "f24", "to" : "f23" }
+      "connect" : [
+        { "id" : "f24", "to" : "f23" }
+      ]
     }, {
       "id" : "f23",
       "type" : "Alternative",
+      "config" : {
+        "conditions" : {
+          "f4" : "in.#sftpClient is initialized"
+        }
+      },
       "visual" : {
         "at" : { "x" : 352, "y" : 64 }
       },
       "connect" : [
-        { "id" : "f4", "to" : "f3", "condition" : "in.#sftpClient is initialized" },
+        { "id" : "f4", "to" : "f3" },
         { "id" : "f25", "to" : "f1", "via" : [ { "x" : 352, "y" : 160 }, { "x" : 608, "y" : 160 } ] }
       ]
     }, {
@@ -216,18 +236,15 @@
       "name" : "Connect",
       "config" : {
         "processCall" : "Sftp/SftpHelper:openConnection(String)",
+        "call" : {
+          "map" : {
+            "param.sftpName" : "in.sftpName"
+          }
+        },
         "output" : {
           "map" : {
             "out" : "in",
             "out.sftpClient" : "result.#sftpClient"
-          }
-        },
-        "call" : {
-          "params" : [
-            { "name" : "sftpName", "type" : "String" }
-          ],
-          "map" : {
-            "param.sftpName" : "in.sftpName"
           }
         }
       },
@@ -235,15 +252,22 @@
         "at" : { "x" : 224, "y" : 256 },
         "icon" : "res:/cms/Images/Logo/16E7E3294211A884.png"
       },
-      "connect" : { "id" : "f29", "to" : "f28" }
+      "connect" : [
+        { "id" : "f29", "to" : "f28" }
+      ]
     }, {
       "id" : "f28",
       "type" : "Alternative",
+      "config" : {
+        "conditions" : {
+          "f10" : "in.#sftpClient is initialized"
+        }
+      },
       "visual" : {
         "at" : { "x" : 352, "y" : 256 }
       },
       "connect" : [
-        { "id" : "f10", "to" : "f9", "condition" : "in.#sftpClient is initialized" },
+        { "id" : "f10", "to" : "f9" },
         { "id" : "f30", "to" : "f8", "via" : [ { "x" : 352, "y" : 344 }, { "x" : 608, "y" : 344 } ] }
       ]
     } ],

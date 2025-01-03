@@ -10,10 +10,10 @@ on:
         required: false
       javaVersion:
         type: number
-        default: 17
+        default: 21
       mvnVersion:
         type: string
-        default: 3.6.3
+        default: 3.9.8
   schedule:
     - cron: '21 21 * * *'
 
@@ -27,7 +27,7 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v4
       with:
-        java-version: ${{ inputs.javaVersion || '17' }}
+        java-version: ${{ inputs.javaVersion || '21' }}
         distribution: temurin
 
     - name: Install and start SFTP
@@ -67,7 +67,7 @@ jobs:
     - name: Setup Maven
       uses: stCarolas/setup-maven@v5
       with:
-        maven-version: ${{ inputs.mvnVersion || '3.6.3' }}
+        maven-version: ${{ inputs.mvnVersion || '3.9.8' }}
 
     - name: Build with Maven
       run: mvn clean verify --batch-mode --fail-at-end ${{ inputs.mvnArgs }}

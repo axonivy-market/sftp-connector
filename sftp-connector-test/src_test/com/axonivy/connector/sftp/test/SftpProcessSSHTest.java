@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -18,7 +16,6 @@ import com.axonivy.connector.sftp.service.SftpClientService.FileData;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
-import ch.ivyteam.ivy.bpm.engine.client.element.BpmProcess;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
 import ch.ivyteam.ivy.scripting.objects.File;
@@ -100,6 +97,7 @@ public class SftpProcessSSHTest extends BaseTest {
 	 	assertThat(isSuccess).isTrue();
 	 }
 
+	 @SuppressWarnings("unchecked")
 	 @Test
 	 @Order(4)
 	 public void callListAllFiles(BpmClient bpmClient) {
