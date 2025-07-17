@@ -103,6 +103,7 @@ public class SftpProcessTest extends BaseTest {
 			        .subProcess(startable)
 			        .execute(TEST_SFTP_SERVER_NAME, ".") // Callable sub process input arguments 
 			        .subResult();
+		@SuppressWarnings("unchecked")
 		List<FileData> listFiles = result.param("listFiles", List.class);
 		assertThat(listFiles.size()).isGreaterThanOrEqualTo(1);
 		assertThat(listFiles).anyMatch(f -> f.getName().equals(TEST_FILE_NAME));
