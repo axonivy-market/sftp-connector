@@ -170,7 +170,6 @@ public class SftpClientService implements AutoCloseable {
 	public FileData getFileData(String remoteFilePath) {
 		FileData fd = null;
 		try {
-			@SuppressWarnings("unchecked")
 			List<ChannelSftp.LsEntry> lsEntryList = channel.ls(remoteFilePath);
 			if (lsEntryList != null && !lsEntryList.isEmpty()) {
 				LsEntry lsEntry = lsEntryList.get(0);
@@ -200,7 +199,6 @@ public class SftpClientService implements AutoCloseable {
 	public List<FileData> getFileDataList(String remoteDir) {
 		List<FileData> fileDataList = new ArrayList<>();
 		try {
-			@SuppressWarnings("unchecked")
 			List<ChannelSftp.LsEntry> lsEntryLst = channel.ls(remoteDir);
 			for (LsEntry lsEntry : lsEntryLst) {
 				FileData fd = new FileData();
