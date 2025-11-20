@@ -1,28 +1,29 @@
-#Axon Efeus **SFTP Anschluss** hilft du zu beschleunigen verarbeiten mal
-Automatisierung Initiativen integrieren befestigen Datei Versetzung hinein eure
-Arbeitsgang Arbeit. Mit dies SFTP Kunde kannst sicher du übertragen fest Dateien
-zu und von einem entlegenen Computer. Dieser Anschluss:
+Der SFTP-Connector „ **” von Axon Ivy (** ) hilft Ihnen dabei, Initiativen zur
+Prozessautomatisierung zu beschleunigen, indem er sichere Dateiübertragungen in
+Ihre Arbeitsprozesse integriert. Mit diesem SFTP-Client können Sie Dateien ganz
+einfach und sicher von und zu einem Remote-Computer übertragen. Dieser
+Connector:
 
-* Benutzt das SFTP Protokoll
-* Ist gegründet weiter [JSch](http://www.jcraft.com/jsch/) zu bedienen das SFTP
-  Zusammenhänge und Operationen
-* Ist #ein #pur #Java Ausführung von SSH2
-* Erlaubt du zu koppeln zu ein sshd Server und benutzen #backbordseitig
-  Nachsendung, X11 Nachsendung, feilen übertragen, #usw.
-* Macht ihm leicht zu integrieren befestigen Datei Versetzung hinein eure
-  Arbeitsgang Arbeit
+* verwendet das SFTP-Protokoll
+* basiert auf [JSch](http://www.jcraft.com/jsch/) zur Verwaltung der
+  SFTP-Verbindungen und -Vorgänge.
+* ist eine reine Java-Implementierung von SSH2.
+* Ermöglicht Ihnen die Verbindung zu einem sshd-Server und die Nutzung von
+  Portweiterleitung, X11-Weiterleitung, Dateiübertragung usw.
+* Erleichtert die Integration einer sicheren Dateiübertragung in Ihren
+  Arbeitsprozess.
 
 ## Demo
 
-1. Klicken weiter **Feilen zu #Hochladen** und auswählen #man feilt von eurem
-   lokalen Telefonbuch.
+1. Klicken Sie auf „ **-Datei hochladen” ( File to Upload)** und wählen Sie eine
+   Datei aus Ihrem lokalen Verzeichnis aus.
 
-   ![#Hochladen-Feilen](images/Upload-File.png)
+   ![Upload-File](images/Upload-File.png)
 
    Pfad: Sftp/SftpUploadFile -> uploadFile(fileToBeUploaded, filename)
 
-   Steckbrief: Diese Operation will die Datei zu den Wurz Pfad #hochladen auf
-   dem Server.
+   Beschreibung: Bei diesem Vorgang wird die Datei in den Stammverzeichnispfad
+   auf dem Server hochgeladen.
 
    Parameter:
 
@@ -31,53 +32,52 @@ zu und von einem entlegenen Computer. Dieser Anschluss:
                - filename -> the file name as String
 
 
-2. Klicken weiter **Erfrischen** zu listen alle die Dateien auf dem entlegenen
-   Telefonbuch.
+2. Klicken Sie auf „ **“ (Dateien aus Remote-Verzeichnis abrufen). Aktualisieren
+   Sie „** “, um alle Dateien im Remote-Verzeichnis aufzulisten.
 
-   - Auswählen #man feilt von der Liste und klicken weiter **Lädt herunter/Ladet
-     herunter**.
+   - Wählen Sie eine Datei aus der Liste aus und klicken Sie auf „ **“ (Datei
+     herunterladen). Laden Sie „** “ herunter.
 
-   ![Laden herunter-Feilen](images/Download-File.png)
+   ![Download-Datei](images/Download-File.png)
 
-   Pfad: Sftp/SftpDownloadFile -> downloadFile(remoteFileName) Resultieren:
-   toFile
+   Pfad: Sftp/SftpDownloadFile -> downloadFile(remoteFileName) Ergebnis: toFile
 
-   Steckbrief: Diese Operation wollen die Datei von dem Server herunterladen.
+   Beschreibung: Bei diesem Vorgang wird die Datei vom Server heruntergeladen.
 
    Parameter:
 
                - remoteFileName -> the file name as String
 
-   Resultat:
+   Ergebnis:
 
                - toFile -> the File to download as java.io.File
 
-Das **SftpClientDemo** #HTML Zwiegespräch zügelt alle zu #hochladen die
-endgültigen Operationen, listet und ladet herunter die Datei von/zu die SFTP
-Server.
+Die Datei „ **” „SftpClientDemo” „** ” „HTML Dialog” enthält alle abschließenden
+Vorgänge zum Hochladen, Auflisten und Herunterladen der Datei vom/auf den
+SFTP-Server.
 
 ![SftpClientDemo](images/SftpClientDemo.png)
 
 ## Einrichtung
 
-Vor starten die Demo, bitte machen sicher zu haben eine SCHT/SFTP Server auf
-eurem Computer (jeweilig den Computer mögen du zugreifen). Für testen, das
-freilassen [Rebex Winzig SFTP Server](https://www.rebex.net/tiny-sftp-server/)
-ist weiterempfohlen.
-1. Öffnen herein die folgenden Lagen “RebexTinySftpServer.exe.config” Mit einen
-   Text Chefredakteur und verbessern die folgenden Werte:
+Bevor Sie die Demo starten, stellen Sie bitte sicher, dass Sie einen
+SSH/SFTP-Server auf Ihrem Computer (bzw. dem Computer, auf den Sie zugreifen
+möchten) installiert haben. Zum Testen wird der kostenlose [Rebex Tiny SFTP
+Server](https://www.rebex.net/tiny-sftp-server/) empfohlen.
+1. Öffnen Sie die folgenden Einstellungen in „RebexTinySftpServer.exe.config”
+   mit einem Texteditor und aktualisieren Sie die folgenden Werte:
    ![RebexTinySftpServer.exe.config](images/RebexTinySftpServer.exe.config.png)
 
-   \* #Um zu #testen den Anschluss mit SCHT wesentliches Paar, leg den
-   öffentlichen Schlüssel Datei zu Ordner `c:/sshkey`.
+   \* Um den Konnektor mit einem SSH-Schlüsselpaar zu testen, legen Sie die
+   Datei mit dem öffentlichen Schlüssel im Ordner „ `” unter „c:/sshkey” ab.`.
 
-2. Konfigurier eins oder More SFTP Anschlüsse in global Variablen. Ein SFTP
-   Anschluss ist identifiziert #bei einem Namen und eine globale Variable
-   Sektion zügelnd #zugreifen Auskunft. Das folgende Beispiel Vorstellungen
-   Zusammenhang Auskunft für eine SFTP Anschluss sollte jener sein erreichbar
-   unter die Name Einheimische-rebex. Leg diesen variablen Block hinein eure
-   Projekt. Mindestens `bringen unter`, `auth`, `Benutzername` und `Passwort`
-   muss sein definiert.
+2. Konfigurieren Sie einen oder mehrere SFTP-Konnektoren in globalen Variablen.
+   Ein SFTP-Konnektor wird durch einen Namen und einen globalen
+   Variablenabschnitt mit Zugriffsinformationen identifiziert. Das folgende
+   Beispiel zeigt die Verbindungsinformationen für einen SFTP-Konnektor, der
+   unter dem Namen local-rebex zugänglich sein sollte. Fügen Sie diesen
+   Variablenblock in Ihr Projekt ein. Mindestens `host`, `auth`, `username` und
+   `password` müssen definiert sein.
    ```
 
    Variables:
@@ -101,8 +101,8 @@ ist weiterempfohlen.
 
    ```
 
-   Oder #um zu aktivieren den Anschluss mit SCHT keypair, `Geheimnis.sshkey` Und
-   `Geheimnis.sshpassphrase` Müssen sein definiert:
+   Um den Connector mit SSH-Schlüsselpaar zu aktivieren, müssen `secret.sshkey`
+   und `secret.sshpassphrase` definiert sein:
    ```
 
    Variables:
@@ -130,13 +130,12 @@ ist weiterempfohlen.
          # The ssh key passphrase
          sshPassphraseSecret: 'Your ssh key passphrase'
    ```
-   \* Der persönliche Schlüssel ist in paaren von dem öffentlichen Schlüssel
-   gelegt #im gleichen Schritt und Tritt 1
+   \* Der private Schlüssel gehört zum öffentlichen Schlüssel, der in Schritt 1
+   eingegeben wurde.
 
-3. Speicher die #abgeändert Lagen.
+3. Speichern Sie die geänderten Einstellungen.
 
 ### Voraussetzungen:
 
-* Arbeitend **SFTP Server**.
-* Du willst auch brauchen das berichtigen Server Gastgeber Namen und die
-  #backbordseitig Nummer.
+* Arbeits- **SFTP-Server**.
+* Außerdem benötigen Sie den korrekten Server-Hostnamen und die Portnummer.
