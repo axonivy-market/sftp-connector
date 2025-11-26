@@ -58,7 +58,7 @@ SFTP-Server.
 
 ![SftpClientDemo](images/SftpClientDemo.png)
 
-## Einrichtung
+## Setup
 
 Bevor Sie die Demo starten, stellen Sie bitte sicher, dass Sie einen
 SSH/SFTP-Server auf Ihrem Computer (bzw. dem Computer, auf den Sie zugreifen
