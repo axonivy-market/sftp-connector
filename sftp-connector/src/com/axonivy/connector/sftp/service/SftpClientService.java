@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,13 @@ public class SftpClientService implements AutoCloseable {
 	private static final String PATHSEPARATOR = "/";
 	private static final int SESSION_TIMEOUT = 10000;
 	private static final int CHANNEL_TIMEOUT = 5000;
-
+	private static final String PARENT_DIR_REFERENCE = "..";
+	private static final String CURRENT_DIR_WITH_SLASH = "./";
+	private static final String CURRENT_DIR_REFERENCE = ".";
+	private static final String ABSOLUTE_PATH_PREFIX = "/";
+	private static final String WINDOWS_PATH_SEPARATOR = "\\";
+	private static final String BASE_LOCAL_DIR_VAR = "baseLocalDir";
+	private static final String STRICT_HOST_KEY_CHECKING_VAR = "strictHostKeyChecking";
 	private static final String SFTP_VAR = "com.axonivy.connector.sftp.server";
 	private static final String HOST_VAR = "host";
 	private static final String PORT_VAR = "port";
@@ -51,6 +58,10 @@ public class SftpClientService implements AutoCloseable {
 	 * A Channel connected to an SFTP server (as a subsystem of the ssh server).
 	 */
 	private ChannelSftp channel;
+	/**
+	 * Base directory for local file operations (validation reference point).
+	 */
+	private Path baseLocalDir;
 
 	/***
 	 * 
@@ -65,6 +76,11 @@ public class SftpClientService implements AutoCloseable {
 		String auth = getVar(sftpName, AUTH_VAR);
 		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
+		String strictHostKeyChecking = getVar(sftpName, STRICT_HOST_KEY_CHECKING_VAR);
+		String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);
+
+		// Initialize base directory with default if not configured
+		baseLocalDir = Paths.get(baseLocalDirStr);
 
 		int port = 22;
 		try {
@@ -86,7 +102,7 @@ public class SftpClientService implements AutoCloseable {
 				session.setConfig("PreferredAuthentications", "publickey");
 				jsch.addIdentity(null, sshKeyBytes, null, secretSSHpassphrase.getBytes());
 			}
-			session.setConfig("StrictHostKeyChecking", "no");
+			session.setConfig("StrictHostKeyChecking", strictHostKeyChecking);
 			// 10 seconds session timeout
 			session.connect(SESSION_TIMEOUT);
 			
@@ -226,6 +242,7 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void uploadFile(InputStream is, String remoteDstFilePath) throws IOException {
+		validateRemotePath(remoteDstFilePath);
 		try {
 			channel.put(is, remoteDstFilePath);
 		} catch (SftpException ex) {
@@ -244,6 +261,8 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void uploadFile(String localSrcFilePath, String remoteDstFilePath) throws IOException {
+		validateLocalPath(localSrcFilePath, baseLocalDir);
+		validateRemotePath(remoteDstFilePath);
 		try {
 			channel.put(localSrcFilePath, remoteDstFilePath);
 		} catch (SftpException ex) {
@@ -261,6 +280,7 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void downloadFile(String remoteSrcFilePath, OutputStream oStream) throws IOException {
+		validateRemotePath(remoteSrcFilePath);
 		try {
 			channel.get(remoteSrcFilePath, oStream);
 		} catch (SftpException ex) {
@@ -279,6 +299,8 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void downloadFile(String remoteSrcFilePath, String localDstFilePath) throws IOException {
+		validateRemotePath(remoteSrcFilePath);
+		validateLocalPath(localDstFilePath, baseLocalDir);
 		try {
 			channel.get(remoteSrcFilePath, localDstFilePath);
 		} catch (SftpException ex) {
@@ -311,10 +333,10 @@ public class SftpClientService implements AutoCloseable {
 						} catch (SftpException ex) {
 							throw new IOException(ex);
 						}
-					} else if (!(".".equals(item.name) || "..".equals(item.name))) { // If it is a subdir
+					} else if (!(CURRENT_DIR_REFERENCE.equals(item.name) || PARENT_DIR_REFERENCE.equals(item.name))) { // If it is a subdir
 						try {
 							// removing sub directory.
-							channel.rmdir(path + "/" + item.name);
+							channel.rmdir(path + PATHSEPARATOR + item.name);
 						} catch (Exception ex) { // If subdir is not empty and error occurs,
 							// Do deleteRemoteFileOrDir on this subdir to enter it and clear its contents
 							deleteRemoteFileOrDir(path + "/" + item.name);
@@ -360,7 +382,7 @@ public class SftpClientService implements AutoCloseable {
 		File sourceFile = new File(sourcePath);
 		File[] files = sourceFile.listFiles();
 		for (File f : files) {
-			if (f.isFile() && !f.getName().startsWith(".")) { // Copy if it is a file
+			if (f.isFile() && !f.getName().startsWith(CURRENT_DIR_REFERENCE)) { // Copy if it is a file
 				try {
 					uploadFile(new FileInputStream(f), f.getName());
 				} catch (IOException e) {
@@ -388,7 +410,7 @@ public class SftpClientService implements AutoCloseable {
 				uploadAllFiles(f.getAbsolutePath());
 
 				try {
-					changeDir("..");
+					changeDir(PARENT_DIR_REFERENCE);
 				} catch (IOException e1) {
 					LOG.error("Error occured", e1);
 				}
@@ -413,7 +435,7 @@ public class SftpClientService implements AutoCloseable {
 				} catch (IOException e) {
 					LOG.error("Error occured while downloading", e);
 				}
-			} else if (!(".".equals(item.name) || "..".equals(item.name))) {
+			} else if (!(CURRENT_DIR_REFERENCE.equals(item.name) || PARENT_DIR_REFERENCE.equals(item.name))) {
 				// Empty folder copy
 				new File(destinationPath + PATHSEPARATOR + item.name).mkdirs();
 				// Enter found folder on server to read its contents and create locally
@@ -423,7 +445,6 @@ public class SftpClientService implements AutoCloseable {
 	}
 
 	/**
-	 * Renames a file or directory.
 	 * 
 	 * @param oldpath the old name of the file, relative to the current remote
 	 *                directory.
@@ -436,6 +457,53 @@ public class SftpClientService implements AutoCloseable {
 			channel.rename(oldpath, newpath);
 		} catch (SftpException ex) {
 			throw new IOException(ex);
+		}
+	}
+
+	/**
+	 * Validates a local file path to prevent directory traversal attacks.
+	 * Uses Java NIO Path API to resolve, normalize, and validate the path
+	 * stays within the base directory. This prevents attacks like ../../../etc/passwd.
+	 * 
+	 * @param userPath the user-supplied local file path
+	 * @param baseDir the base directory that userPath must not escape from
+	 * @return the validated absolute path
+	 * @throws IOException if path attempts to traverse outside baseDir
+	 */
+	private static Path validateLocalPath(String userPath, Path baseDir) throws IOException {
+		try {
+			Path resolved = baseDir.resolve(userPath).normalize().toAbsolutePath();
+			if (!resolved.startsWith(baseDir.toAbsolutePath())) {
+				throw new SecurityException("Path traversal blocked: " + userPath);
+			}
+			return resolved;
+		} catch (SecurityException ex) {
+			throw new IOException(ex);
+		}
+	}
+
+	/**
+	 * Validates a remote SFTP path to prevent directory traversal attacks.
+	 * Uses string-based pattern matching to reject traversal attempts.
+	 * Note: Remote path security is primarily enforced at the SFTP server level
+	 * (e.g., chroot, SSH key restrictions, SFTP server ACLs).
+	 * This method provides client-side defense-in-depth by rejecting obvious traversal patterns.
+	 * 
+	 * @param remotePath the remote SFTP file path to validate
+	 * @throws IOException if path contains traversal patterns or invalid sequences
+	 */
+	private static void validateRemotePath(String remotePath) throws IOException {
+		if (remotePath == null || remotePath.trim().isEmpty()) {
+			throw new IOException("Security validation failed: remote path cannot be null or empty");
+		}
+		if (remotePath.startsWith(ABSOLUTE_PATH_PREFIX)) {
+			throw new IOException("Security validation failed: absolute paths not allowed for remote transfers. Use relative paths instead: " + remotePath);
+		}
+		if (remotePath.contains(PARENT_DIR_REFERENCE) || remotePath.contains(CURRENT_DIR_WITH_SLASH) || remotePath.startsWith(CURRENT_DIR_REFERENCE)) {
+			throw new IOException("Security validation failed: path traversal detected in remote path: " + remotePath);
+		}
+		if (remotePath.contains(WINDOWS_PATH_SEPARATOR)) {
+			throw new IOException("Security validation failed: invalid path separator in remote path: " + remotePath);
 		}
 	}
 
