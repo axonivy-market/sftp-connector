@@ -41,6 +41,7 @@ public class SftpClientService implements AutoCloseable {
 	private static final String WINDOWS_PATH_SEPARATOR = "\\";
 	private static final String BASE_LOCAL_DIR_VAR = "baseLocalDir";
 	private static final String STRICT_HOST_KEY_CHECKING_VAR = "strictHostKeyChecking";
+	private static final String ENFORCE_PATH_RESTRICTIONS_VAR = "strictHostKeyChecking";
 	private static final String SFTP_VAR = "com.axonivy.connector.sftp.server";
 	private static final String HOST_VAR = "host";
 	private static final String PORT_VAR = "port";
@@ -62,6 +63,8 @@ public class SftpClientService implements AutoCloseable {
 	 * Base directory for local file operations (validation reference point).
 	 */
 	private Path baseLocalDir;
+	
+	private boolean enforcePathRestrictions;
 
 	/***
 	 * 
@@ -77,11 +80,11 @@ public class SftpClientService implements AutoCloseable {
 		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
 		String strictHostKeyChecking = getVar(sftpName, STRICT_HOST_KEY_CHECKING_VAR);
-		String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);
-
+		String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);		
+		String enforcePathRestrictionsString = getVar(sftpName, ENFORCE_PATH_RESTRICTIONS_VAR);
 		// Initialize base directory with default if not configured
 		baseLocalDir = Paths.get(baseLocalDirStr);
-
+		enforcePathRestrictions = Boolean.getBoolean(enforcePathRestrictionsString);
 		int port = 22;
 		try {
 			port = Integer.parseInt(portRaw);
@@ -242,7 +245,9 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void uploadFile(InputStream is, String remoteDstFilePath) throws IOException {
-		validateRemotePath(remoteDstFilePath);
+		if (enforcePathRestrictions) {
+			validateRemotePath(remoteDstFilePath);
+		}
 		try {
 			channel.put(is, remoteDstFilePath);
 		} catch (SftpException ex) {
@@ -261,8 +266,10 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void uploadFile(String localSrcFilePath, String remoteDstFilePath) throws IOException {
-		validateLocalPath(localSrcFilePath, baseLocalDir);
-		validateRemotePath(remoteDstFilePath);
+		if (enforcePathRestrictions) {
+			validateLocalPath(localSrcFilePath, baseLocalDir);
+			validateRemotePath(remoteDstFilePath);
+		}
 		try {
 			channel.put(localSrcFilePath, remoteDstFilePath);
 		} catch (SftpException ex) {
@@ -280,7 +287,9 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void downloadFile(String remoteSrcFilePath, OutputStream oStream) throws IOException {
-		validateRemotePath(remoteSrcFilePath);
+		if (enforcePathRestrictions) {
+			validateRemotePath(remoteSrcFilePath);
+		}
 		try {
 			channel.get(remoteSrcFilePath, oStream);
 		} catch (SftpException ex) {
@@ -299,8 +308,10 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void downloadFile(String remoteSrcFilePath, String localDstFilePath) throws IOException {
-		validateRemotePath(remoteSrcFilePath);
-		validateLocalPath(localDstFilePath, baseLocalDir);
+		if (enforcePathRestrictions) {
+			validateRemotePath(remoteSrcFilePath);
+			validateLocalPath(localDstFilePath, baseLocalDir);
+		}
 		try {
 			channel.get(remoteSrcFilePath, localDstFilePath);
 		} catch (SftpException ex) {

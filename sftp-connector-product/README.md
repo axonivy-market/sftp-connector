@@ -125,3 +125,92 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
 
 * Working **SFTP Server**.
 * You will also need the correct Server host name and the port number.
+
+## 🛡️ Security Considerations
+
+This connector provides a flexible SFTP client and does not enforce strict security boundaries. Proper configuration and safe usage are required when integrating it into an application.
+
+---
+
+### 🔐 Host Key Verification
+
+By default:
+
+```yaml
+strictHostKeyChecking: "yes"
+````
+
+This ensures that the client verifies the identity of the SFTP server before establishing a connection.
+
+**Why this matters:**
+
+* Prevents man-in-the-middle (MITM) attacks
+* Protects credentials and transferred data from interception
+
+**Recommendation:**
+
+* Always keep this set to `"yes"` in production
+* Configure a trusted `known_hosts` file or use host key pinning
+
+---
+
+### ⚠️ Path Handling and File Access
+
+By default:
+
+```yaml
+enforcePathRestrictions: "true"
+```
+
+When enabled, the connector applies basic validation to local file paths to reduce the risk of unintended file access.
+
+**What it does:**
+
+* Normalizes local file paths
+* Helps prevent access outside of a configured base directory (if set)
+
+**What it does NOT do:**
+
+* Does not guarantee full protection against all path traversal techniques
+* Does not enforce restrictions on remote (SFTP server) paths
+* Does not replace proper input validation in your application
+
+---
+
+### 🚨 Potential Risks
+
+If misconfigured or used with untrusted input, the following risks may occur:
+
+* Accessing unintended local files (e.g. via `../` path traversal)
+* Overwriting sensitive files on the client system
+* Downloading sensitive files from the SFTP server (depending on server permissions)
+
+---
+
+### ✅ Recommended Configuration
+
+```yaml
+strictHostKeyChecking: "yes"
+enforcePathRestrictions: "true"
+```
+
+---
+
+### 🧠 Best Practices
+
+* Do not pass raw user input directly as file paths
+* Restrict file operations to a specific base directory
+* Use least-privilege accounts on the SFTP server
+* Avoid running SFTP services with elevated privileges (e.g. root)
+* Monitor and audit file transfer activity where possible
+
+---
+
+### 📌 Responsibility
+
+This library provides low-level file transfer capabilities.
+It is the responsibility of the integrating application to:
+
+* Validate and sanitize input
+* Enforce access control policies
+* Configure a secure runtime environment
