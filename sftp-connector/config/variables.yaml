@@ -1,43 +1,46 @@
-# yaml-language-server: $schema=https://json-schema.axonivy.com/app/13.2.1/variables.json
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/12.0.0/variables.json
 Variables:
   com:
     axonivy:
-      connector:
-        sftp:
           server:
             dummy:
               # The host name to the SFTP server
-              host: ""
+              host: ''
+              
               # The port number to the SFTP server
-              port: "22"
+              port: 22
+              
               # The username to the SFTP server
-              username: ""
+              username: ''
+              
               # Auth type to the SFPT server
               # [enum: password, ssh]
-              auth: password
+              auth: 'password'
+              
               # The password to the SFTP server
-              #[password]
-              password: ${decrypt:}
+              # [password]
+              password: ''
+              
               # Dear Bug Hunter
               # This credential is intentionally included for educational purposes only and does not provide access to any production systems
               # Please do not submit it as part of our bug bounty program
               # The path of ssh key file to SFTP server
-              sshkeyFilePath: ""
+              sshkeyFilePath: ''
+              
               # The ssh key passphrase
-              sshPassphraseSecret: ""
+              sshPassphraseSecret: ''
+              
               # SSH Host Key Verification (SECURITY CRITICAL)
               # "yes" = Verify server's host key against known_hosts (RECOMMENDED for production)
               # "no"  = Accept any host key (vulnerable to man-in-the-middle attacks)
               # Set to "yes" and configure a known_hosts file for secure deployments
               strictHostKeyChecking: "yes"
+              
               # Enables basic path restriction checks for file operations.
-              #
               # When enabled, local file paths will be normalized and validated to ensure
               # they do not escape the configured base directory (if provided).
-              #
               # ⚠️ This does not provide full protection against all path traversal techniques.
               # It is intended to reduce the risk of unintended file access when handling
               # untrusted or dynamic input.
-              #
               # Default: true
               enforcePathRestrictions: "true"
