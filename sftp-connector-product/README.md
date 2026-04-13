@@ -126,13 +126,13 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
 * Working **SFTP Server**.
 * You will also need the correct Server host name and the port number.
 
-## 🛡️ Security Considerations
+### Security Considerations
 
 This connector provides a flexible SFTP client and does not enforce strict security boundaries. Proper configuration and safe usage are required when integrating it into an application.
 
 ---
 
-### 🔐 Host Key Verification
+#### Host Key Verification
 
 By default:
 
@@ -152,9 +152,9 @@ This ensures that the client verifies the identity of the SFTP server before est
 * Always keep this set to `"yes"` in production
 * Configure a trusted `known_hosts` file or use host key pinning
 
----
+```
 
-### ⚠️ Path Handling and File Access
+#### Path Handling and File Access
 
 By default:
 
@@ -177,7 +177,7 @@ When enabled, the connector applies basic validation to local file paths to redu
 
 ---
 
-### 🚨 Potential Risks
+#### Potential Risks
 
 If misconfigured or used with untrusted input, the following risks may occur:
 
@@ -187,7 +187,7 @@ If misconfigured or used with untrusted input, the following risks may occur:
 
 ---
 
-### ✅ Recommended Configuration
+#### Recommended Configuration
 
 ```yaml
 strictHostKeyChecking: "yes"
@@ -196,7 +196,7 @@ enforcePathRestrictions: "true"
 
 ---
 
-### 🧠 Best Practices
+#### Best Practices
 
 * Do not pass raw user input directly as file paths
 * Restrict file operations to a specific base directory
@@ -206,7 +206,7 @@ enforcePathRestrictions: "true"
 
 ---
 
-### 📌 Responsibility
+#### Responsibility
 
 This library provides low-level file transfer capabilities.
 It is the responsibility of the integrating application to:
