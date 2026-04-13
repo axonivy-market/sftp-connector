@@ -321,7 +321,6 @@ public class SftpClientService implements AutoCloseable {
 	 * @throws IOException
 	 */
 	public void deleteRemoteFileOrDir(String path) throws IOException {
-		validateRemotePath(path);
 		FileData fd = getFileData(path);
 		if (fd != null) {
 			if (fd.isFile) {
@@ -434,7 +433,6 @@ public class SftpClientService implements AutoCloseable {
 	 * @param destinationPath
 	 */
 	public void downloadAllFiles(String sourcePath, String destinationPath) {
-		validateRemotePath(sourcePath);
 		validateLocalPath(destinationPath, baseLocalDir);
 		List<FileData> fileAndFolderList = getFileDataList(sourcePath); // Let list of folder content
 		// Iterate through list of folder content
