@@ -175,8 +175,6 @@ When enabled, the connector applies basic validation to local file paths to redu
 * Does not enforce restrictions on remote (SFTP server) paths
 * Does not replace proper input validation in your application
 
----
-
 #### Potential Risks
 
 If misconfigured or used with untrusted input, the following risks may occur:
@@ -185,16 +183,12 @@ If misconfigured or used with untrusted input, the following risks may occur:
 * Overwriting sensitive files on the client system
 * Downloading sensitive files from the SFTP server (depending on server permissions)
 
----
-
 #### Recommended Configuration
 
 ```yaml
 strictHostKeyChecking: "yes"
 enforcePathRestrictions: "true"
 ```
-
----
 
 #### Best Practices
 
@@ -203,8 +197,6 @@ enforcePathRestrictions: "true"
 * Use least-privilege accounts on the SFTP server
 * Avoid running SFTP services with elevated privileges (e.g. root)
 * Monitor and audit file transfer activity where possible
-
----
 
 #### Responsibility
 
