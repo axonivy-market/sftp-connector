@@ -66,22 +66,29 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
    
    Variables:
 
-     com.axonivy.connector.sftp.server:
-       local-rebex:
-         # The host name to the SFTP server
-         host: 'localhost'
-       
-         # Auth type to the SFPT server: password OR ssh
-         auth: 'password'
-       
-         # The password to the SFTP server
-         password: pwd
+     com:
+       axonivy:
+         connector:
+           sftp:
+             server:
+               local-rebex:
+                 # The host name to the SFTP server
+                 host: 'localhost'
+               
+                 # Auth type to the SFPT server: password OR ssh
+                 auth: 'password'
+                 
+                 # The password to the SFTP server
+                 password: pwd
 
-         # The port number to the SFTP server
-         port: 22
+                 # The port number to the SFTP server
+                 port: 22
 
-         # The username to the SFTP server
-         username: 'usr'
+                 # The username to the SFTP server
+                 username: 'usr'
+                 baseLocalDir: '/home/user/sftp/local'
+                 enforcePathRestrictions: 'true'
+                 strictHostKeyChecking: 'yes'
 
    ```
 
@@ -90,31 +97,38 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
    
    Variables:
 
-     com.axonivy.connector.sftp.server:
-       local-rebex:
-         # The host name to the SFTP server
-         host: 'localhost'
+     com:
+       axonivy:
+         connector:
+           sftp:
+             server:
+               local-rebex:
+                 # The host name to the SFTP server
+                 host: 'localhost'
+               
+                 # Auth type to the SFPT server: password OR ssh
+                 auth: 'ssh'
        
-         # Auth type to the SFPT server: password OR ssh
-         auth: 'ssh'
-       
-         # The password to the SFTP server
-         password: ''
+                 # The password to the SFTP server
+                 password: ''
 
-         # The port number to the SFTP server
-         port: 22
+                 # The port number to the SFTP server
+                 port: 22
 
-         # The username to the SFTP server
-         username: 'usr'
-       
-              # Dear Bug Hunter
-              # This credential is intentionally included for educational purposes only and does not provide access to any production systems
-              # Please do not submit it as part of our bug bounty program
-         # The path of ssh key file to SFTP server
-         sshkeyFilePath: 'path/to/file'
-  
-         # The ssh key passphrase
-         sshPassphraseSecret: 'Your ssh key passphrase'
+                 # The username to the SFTP server
+                 username: 'usr'
+                 
+                 # Dear Bug Hunter
+                 # This credential is intentionally included for educational purposes only and does not provide access to any production systems
+                 # Please do not submit it as part of our bug bounty program
+                 # The path of ssh key file to SFTP server
+                 sshkeyFilePath: 'path/to/file'
+                 
+                 # The ssh key passphrase
+                 sshPassphraseSecret: 'Your ssh key passphrase'
+                 baseLocalDir: '/home/user/sftp/local'
+                 enforcePathRestrictions: 'true'
+                 strictHostKeyChecking: 'yes'
    ```
    \* the private key is in pair of the public key put in step 1
 
@@ -125,3 +139,73 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
 
 * Working **SFTP Server**.
 * You will also need the correct Server host name and the port number.
+
+### Security Considerations
+
+This connector provides a flexible SFTP client and does not enforce strict security boundaries. Proper configuration and safe usage are required when integrating it into an application.
+
+#### Host Key Verification
+
+By default:
+
+```yaml
+strictHostKeyChecking: "yes"
+```
+
+This ensures that the client verifies the identity of the SFTP server before establishing a connection.
+
+**Why this matters:**
+
+* Prevents man-in-the-middle (MITM) attacks
+* Protects credentials and transferred data from interception
+
+**Recommendation:**
+
+* Always keep this set to `"yes"` in production
+* Configure a trusted `known_hosts` file or use host key pinning
+
+#### Path Handling and File Access
+
+By default:
+
+```yaml
+enforcePathRestrictions: "true"
+```
+
+When enabled, the connector applies basic validation to local file paths to reduce the risk of unintended file access.
+
+**What it does:**
+
+* Normalizes local file paths
+* Helps prevent access outside of a configured base directory (if set)
+
+**What it does NOT do:**
+
+* Does not guarantee full protection against all path traversal techniques
+* Does not enforce restrictions on remote (SFTP server) paths
+* Does not replace proper input validation in your application
+
+#### Potential Risks
+
+If misconfigured or used with untrusted input, the following risks may occur:
+
+* Accessing unintended local files (e.g. via `../` path traversal)
+* Overwriting sensitive files on the client system
+* Downloading sensitive files from the SFTP server (depending on server permissions)
+
+#### Best Practices
+
+* Do not pass raw user input directly as file paths
+* Restrict file operations to a specific base directory
+* Use least-privilege accounts on the SFTP server
+* Avoid running SFTP services with elevated privileges (e.g. root)
+* Monitor and audit file transfer activity where possible
+
+#### Responsibility
+
+This library provides low-level file transfer capabilities.
+It is the responsibility of the integrating application to:
+
+* Validate and sanitize input
+* Enforce access control policies
+* Configure a secure runtime environment

@@ -17,7 +17,7 @@ import com.axonivy.connector.sftp.service.SftpClientService.FileData;
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
-import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 import ch.ivyteam.ivy.scripting.objects.File;
 
 
@@ -34,12 +34,11 @@ import ch.ivyteam.ivy.scripting.objects.File;
  * <a href="https://developer.axonivy.com/doc/9.2/concepts/testing/process-testing.html">Process Testing docs</a>
  * </p>
  */
-@IvyProcessTest(enableWebServer = true)
 public class SftpProcessTest extends BaseTest {
 	
 	@BeforeEach
-	public void preInit() throws Exception {
-		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
+	public void preInit(AppFixture fixture) throws Exception {
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", fixture);
 	}
 	
 	@Test
