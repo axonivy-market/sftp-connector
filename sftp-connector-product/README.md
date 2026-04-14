@@ -130,7 +130,6 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
 
 This connector provides a flexible SFTP client and does not enforce strict security boundaries. Proper configuration and safe usage are required when integrating it into an application.
 
----
 
 #### Path Handling and File Access
 
@@ -160,12 +159,6 @@ If misconfigured or used with untrusted input, the following risks may occur:
 * Accessing unintended local files (e.g. via `../` path traversal)
 * Overwriting sensitive files on the client system
 * Downloading sensitive files from the SFTP server (depending on server permissions)
-
-#### Recommended Configuration
-
-```yaml
-enforcePathRestrictions: "true"
-```
 
 #### Best Practices
 
