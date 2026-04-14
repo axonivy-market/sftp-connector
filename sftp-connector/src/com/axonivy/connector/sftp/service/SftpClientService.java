@@ -40,8 +40,7 @@ public class SftpClientService implements AutoCloseable {
 	private static final String ABSOLUTE_PATH_PREFIX = "/";
 	private static final String WINDOWS_PATH_SEPARATOR = "\\";
 	private static final String BASE_LOCAL_DIR_VAR = "baseLocalDir";
-	private static final String STRICT_HOST_KEY_CHECKING_VAR = "strictHostKeyChecking";
-	private static final String ENFORCE_PATH_RESTRICTIONS_VAR = "strictHostKeyChecking";
+	private static final String ENFORCE_PATH_RESTRICTIONS_VAR = "enforcePathRestrictions";
 	private static final String SFTP_VAR = "com.axonivy.connector.sftp.server";
 	private static final String HOST_VAR = "host";
 	private static final String PORT_VAR = "port";
@@ -79,12 +78,11 @@ public class SftpClientService implements AutoCloseable {
 		String auth = getVar(sftpName, AUTH_VAR);
 		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
-		String strictHostKeyChecking = getVar(sftpName, STRICT_HOST_KEY_CHECKING_VAR);
 		String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);		
 		String enforcePathRestrictionsString = getVar(sftpName, ENFORCE_PATH_RESTRICTIONS_VAR);
 		// Initialize base directory with default if not configured
 		baseLocalDir = Paths.get(baseLocalDirStr);
-		enforcePathRestrictions = Boolean.getBoolean(enforcePathRestrictionsString);
+		enforcePathRestrictions = Boolean.parseBoolean(enforcePathRestrictionsString);
 		int port = 22;
 		try {
 			port = Integer.parseInt(portRaw);
@@ -105,7 +103,6 @@ public class SftpClientService implements AutoCloseable {
 				session.setConfig("PreferredAuthentications", "publickey");
 				jsch.addIdentity(null, sshKeyBytes, null, secretSSHpassphrase.getBytes());
 			}
-			session.setConfig("StrictHostKeyChecking", strictHostKeyChecking);
 			// 10 seconds session timeout
 			session.connect(SESSION_TIMEOUT);
 			
