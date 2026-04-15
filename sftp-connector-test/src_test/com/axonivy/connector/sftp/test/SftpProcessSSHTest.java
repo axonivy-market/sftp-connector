@@ -40,7 +40,7 @@ public class SftpProcessSSHTest extends BaseTest {
 	@BeforeAll
 	public static void init() throws Exception {
 		String keyPath = SftpProcessSSHTest.class.getResource("sftptest").getPath();
-		setVarForSFTPName(TEST_SFTP_SSH_SERVER_NAME, "usr2ssh", "ssh", "", keyPath, "123456", "");
+		setVarForSFTPName(TEST_SFTP_SSH_SERVER_NAME, "usr2ssh", "ssh", "", keyPath, "123456");
 	}
 	
 	@Test

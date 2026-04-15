@@ -17,8 +17,7 @@ public class BaseTest {
 	protected static final String TEST_FILE_NAME = "market_market_connector_sftp.pdf";
 	protected static final long TEST_FILE_SIZE = 207569L;
 	
-	protected static void setVarForSFTPName(String sftpServerName, String username, String auth, String password,
-			String sshKeyFilePath, String sshpassphrase, String enforcePathRestrictions) {
+	protected static void setVarForSFTPName(String sftpServerName, String username, String auth, String password, String sshKeyFilePath, String sshpassphrase) {
 		setVar(sftpServerName, "host", "localhost");
 		setVar(sftpServerName, "username", username);
 		setVar(sftpServerName, "port", "22");
@@ -26,7 +25,6 @@ public class BaseTest {
 		setVar(sftpServerName, "password", password);
 		setVar(sftpServerName, "sshkeyFilePath", sshKeyFilePath);
 		setVar(sftpServerName, "sshPassphraseSecret", sshpassphrase);
-		setVar(sftpServerName, "enforcePathRestrictions", enforcePathRestrictions);
 	}
 	
 	protected static void setVar(String sftpServerName, String var, String value) {

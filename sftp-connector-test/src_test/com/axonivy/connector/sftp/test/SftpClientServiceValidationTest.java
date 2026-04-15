@@ -27,7 +27,7 @@ class SftpClientServiceValidationTest extends BaseTest {
 	void setupSecureSFTP() {
 		String resourceDir = getClass().getResource(TEST_FILE_NAME).getPath();
 		resourceDir = Paths.get(resourceDir).getParent().toString();
-		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "true");
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
 		// Set base local directory to resource directory where test files are stored
 		setVar(TEST_SFTP_SERVER_NAME, "baseLocalDir", resourceDir);
 	}

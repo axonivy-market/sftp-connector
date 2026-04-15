@@ -39,7 +39,7 @@ public class SftpProcessTest extends BaseTest {
 	
 	@BeforeEach
 	public void preInit() throws Exception {
-		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "");
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
 	}
 	
 	@Test
