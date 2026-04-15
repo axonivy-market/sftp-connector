@@ -103,6 +103,8 @@ public class SftpClientService implements AutoCloseable {
 				session.setConfig("PreferredAuthentications", "publickey");
 				jsch.addIdentity(null, sshKeyBytes, null, secretSSHpassphrase.getBytes());
 			}
+			// Disable strict host key checking for test environments
+			session.setConfig("StrictHostKeyChecking", "no");
 			// 10 seconds session timeout
 			session.connect(SESSION_TIMEOUT);
 			

@@ -29,7 +29,7 @@ public class BaseTest {
 		setVar(sftpServerName, "enforcePathRestrictions", enforcePathRestrictions);
 	}
 	
-	private static void setVar(String sftpServerName, String var, String value) {
+	protected static void setVar(String sftpServerName, String var, String value) {
 		Ivy.var().set(String.format("%s.%s.%s", PREFIX, sftpServerName, var), value);
 	}
 	
