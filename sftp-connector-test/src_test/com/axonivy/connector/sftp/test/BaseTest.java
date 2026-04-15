@@ -17,6 +17,12 @@ public class BaseTest {
 	protected static final String TEST_FILE_NAME = "market_market_connector_sftp.pdf";
 	protected static final long TEST_FILE_SIZE = 207569L;
 	
+	static {
+		// Configure default JSch to accept new host keys for testing
+		// This allows tests to connect to localhost without pre-existing known_hosts entry
+		com.jcraft.jsch.JSch.setConfig("StrictHostKeyChecking", "accept-new");
+	}
+	
 	protected static void setVarForSFTPName(String sftpServerName, String username, String auth, String password, String sshKeyFilePath, String sshpassphrase) {
 		setVar(sftpServerName, "host", "localhost");
 		setVar(sftpServerName, "username", username);
