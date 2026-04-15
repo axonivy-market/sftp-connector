@@ -49,6 +49,7 @@ public class SftpClientService implements AutoCloseable {
 	private static final String AUTH_VAR = "auth";
 	private static final String PASSWORD_VAR = "password";
 	private static final String USERNAME_VAR = "username";
+	private static final String STRICT_HOST_KEY_CHECKING_VAR = "strictHostKeyChecking";
 
 	/**
 	 * A Session represents a connection to an SSH server.
@@ -79,6 +80,7 @@ public class SftpClientService implements AutoCloseable {
 		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
 		String enforcePathRestrictionsString = getVar(sftpName, ENFORCE_PATH_RESTRICTIONS_VAR);
+		String strictHostKeyChecking = getVar(sftpName, STRICT_HOST_KEY_CHECKING_VAR);
 		enforcePathRestrictions = Boolean.parseBoolean(enforcePathRestrictionsString);
 		if (enforcePathRestrictions) {
 			String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);
@@ -107,6 +109,7 @@ public class SftpClientService implements AutoCloseable {
 				session.setConfig("PreferredAuthentications", "publickey");
 				jsch.addIdentity(null, sshKeyBytes, null, secretSSHpassphrase.getBytes());
 			}
+			session.setConfig("StrictHostKeyChecking", strictHostKeyChecking);
 			// 10 seconds session timeout
 			session.connect(SESSION_TIMEOUT);
 			

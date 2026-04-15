@@ -33,6 +33,7 @@ public class BaseTest {
 		setVar(sftpServerName, "sshPassphraseSecret", sshpassphrase, fixture);
 		setVar(sftpServerName, "enforcePathRestrictions", enforcePathRestrictions, fixture);
 		setVar(sftpServerName, "baseLocalDir", baseLocalDir, fixture);
+		setVar(sftpServerName, "strictHostKeyChecking", "no", fixture);
 	}
 
 	protected static void setVar(String sftpServerName, String var, String value, AppFixture fixture) {

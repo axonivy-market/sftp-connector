@@ -130,6 +130,25 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
 
 This connector provides a flexible SFTP client and does not enforce strict security boundaries. Proper configuration and safe usage are required when integrating it into an application.
 
+#### Host Key Verification
+
+By default:
+
+```yaml
+strictHostKeyChecking: "yes"
+```
+
+This ensures that the client verifies the identity of the SFTP server before establishing a connection.
+
+**Why this matters:**
+
+* Prevents man-in-the-middle (MITM) attacks
+* Protects credentials and transferred data from interception
+
+**Recommendation:**
+
+* Always keep this set to `"yes"` in production
+* Configure a trusted `known_hosts` file or use host key pinning
 
 #### Path Handling and File Access
 
