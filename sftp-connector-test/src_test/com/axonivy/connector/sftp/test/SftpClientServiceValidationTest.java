@@ -13,20 +13,19 @@ import com.axonivy.connector.sftp.service.SftpClientService;
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
-import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 
 /**
  * Test class for path validation in SftpClientService.
  * Tests path validation indirectly through public methods that call validation internally.
  */
-@IvyProcessTest
 class SftpClientServiceValidationTest extends BaseTest {
 
 	@BeforeEach
-	void setupSecureSFTP() {
+	void setupSecureSFTP(AppFixture fixture) {
 		String resourceDir = getClass().getResource(TEST_FILE_NAME).getPath();
 		resourceDir = Paths.get(resourceDir).getParent().toString();
-		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "true", resourceDir);
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "true", resourceDir, fixture);
 	}
 
 	private SftpClientService initSftpClient(BpmClient bpmClient) {

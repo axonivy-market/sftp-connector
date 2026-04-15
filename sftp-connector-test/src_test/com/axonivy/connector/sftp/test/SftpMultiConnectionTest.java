@@ -10,20 +10,19 @@ import org.junit.jupiter.api.Test;
 import com.axonivy.connector.sftp.service.SftpClientService;
 
 import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
-import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
+import ch.ivyteam.ivy.environment.AppFixture;
 
 
 /**
  * This SftpMultiConnectionTest creates 2 sFTP connections
  */
-@IvyProcessTest(enableWebServer = true)
 public class SftpMultiConnectionTest extends BaseTest {
 
 	@BeforeEach
-	public void preInit() throws Exception {
-		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
+	public void preInit(AppFixture fixture) throws Exception {
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", fixture);
 		String keyPath = SftpProcessSSHTest.class.getResource("sftptest").getPath();
-		setVarForSFTPName(TEST_SFTP_SSH_SERVER_NAME, "usr2ssh", "ssh", "", keyPath, "123456");
+		setVarForSFTPName(TEST_SFTP_SSH_SERVER_NAME, "usr2ssh", "ssh", "", keyPath, "123456", fixture);
 	}
 
 	@Test
