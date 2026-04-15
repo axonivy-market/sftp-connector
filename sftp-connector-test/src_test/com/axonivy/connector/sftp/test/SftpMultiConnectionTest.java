@@ -19,7 +19,6 @@ import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
 @IvyProcessTest(enableWebServer = true)
 public class SftpMultiConnectionTest extends BaseTest {
 
-
 	@BeforeEach
 	public void preInit() throws Exception {
 		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");

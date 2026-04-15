@@ -78,11 +78,12 @@ public class SftpClientService implements AutoCloseable {
 		String auth = getVar(sftpName, AUTH_VAR);
 		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
-		String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);		
 		String enforcePathRestrictionsString = getVar(sftpName, ENFORCE_PATH_RESTRICTIONS_VAR);
-		// Initialize base directory with default if not configured
-		baseLocalDir = Paths.get(baseLocalDirStr);
 		enforcePathRestrictions = Boolean.parseBoolean(enforcePathRestrictionsString);
+		if (enforcePathRestrictions) {
+			String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);
+			baseLocalDir = Paths.get(baseLocalDirStr);
+		}
 		int port = 22;
 		try {
 			port = Integer.parseInt(portRaw);

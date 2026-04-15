@@ -47,9 +47,6 @@ jobs:
         sudo systemctl enable ssh
         sudo systemctl start ssh
         
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa,ecdsa,ed25519 localhost >> ~/.ssh/known_hosts 2>/dev/null || true
-        
     - name: Create a test user account
       run: |
         sshGroupRaw=$(getent group | grep ssh)
