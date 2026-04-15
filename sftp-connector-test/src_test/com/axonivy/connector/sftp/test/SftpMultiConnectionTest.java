@@ -19,20 +19,18 @@ import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
 @IvyProcessTest(enableWebServer = true)
 public class SftpMultiConnectionTest extends BaseTest {
 
-	private static final String SFTP_NAME = "dummy";
-	private static final String SFTP_SSH_NAME = "dummy_ssh";
 
 	@BeforeEach
 	public void preInit() throws Exception {
-		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
+		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "");
 		String keyPath = SftpProcessSSHTest.class.getResource("sftptest").getPath();
-		setVarForSFTPName(TEST_SFTP_SSH_SERVER_NAME, "usr2ssh", "ssh", "", keyPath, "123456");
+		setVarForSFTPName(TEST_SFTP_SSH_SERVER_NAME, "usr2ssh", "ssh", "", keyPath, "123456", "");
 	}
 
 	@Test
 	public void callOpenConnection(BpmClient bpmClient) throws IOException {
-		SftpClientService sftpClient = new SftpClientService(SFTP_NAME);
-		SftpClientService sftpSSHClient = new SftpClientService(SFTP_SSH_NAME);
+		SftpClientService sftpClient = new SftpClientService(TEST_SFTP_SERVER_NAME);
+		SftpClientService sftpSSHClient = new SftpClientService(TEST_SFTP_SSH_SERVER_NAME);
 
 		assertThat(sftpClient).isNotNull();
 		assertThat(sftpSSHClient).isNotNull();
