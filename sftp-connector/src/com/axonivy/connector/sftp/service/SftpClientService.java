@@ -82,6 +82,9 @@ public class SftpClientService implements AutoCloseable {
 		enforcePathRestrictions = Boolean.parseBoolean(enforcePathRestrictionsString);
 		if (enforcePathRestrictions) {
 			String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);
+			if (StringUtils.isEmpty(baseLocalDirStr)) {
+				throw new IOException("Security validation is enabled (enforcePathRestrictions=true) but baseLocalDir is not configured. ");
+			}
 			baseLocalDir = Paths.get(baseLocalDirStr);
 		}
 		int port = 22;
