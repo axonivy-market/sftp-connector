@@ -3,11 +3,7 @@ package com.axonivy.connector.sftp.test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.IOException;
-
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.axonivy.connector.sftp.service.SftpClientService;
@@ -27,7 +23,7 @@ class SftpClientServiceValidationTest extends BaseTest {
 	private static SftpClientService sftpClient;
 
 	@BeforeAll
-	void setupSecureSFTP(BpmClient bpmClient) {
+	static void setupSecureSFTP(BpmClient bpmClient) {
 		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "true");
 		BpmElement startable = TEST_HELPER_PROCESS.elementName("openConnection(String)");
 		SubProcessCallResult result = bpmClient.start()
