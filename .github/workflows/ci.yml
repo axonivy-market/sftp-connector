@@ -69,6 +69,11 @@ jobs:
         sudo chmod 600 /home/usr2ssh/.ssh/authorized_keys
         cp ~/.ssh/sftptest ${GITHUB_WORKSPACE}/sftp-connector-test/src_test/com/axonivy/connector/sftp/test/sftptest
 
+    - name: Add localhost to known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -t rsa,ecdsa,ed25519 localhost >> ~/.ssh/known_hosts 2>/dev/null || true
+
     - name: Setup Maven
       uses: stCarolas/setup-maven@v5
       with:

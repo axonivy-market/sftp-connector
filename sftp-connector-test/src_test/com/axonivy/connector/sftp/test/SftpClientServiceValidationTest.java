@@ -22,16 +22,14 @@ import ch.ivyteam.ivy.environment.Ivy;
  */
 @IvyProcessTest
 class SftpClientServiceValidationTest extends BaseTest {
-	private static SftpClientService sftpClient;
 
 	@BeforeEach
-	void setupSecureSFTP(BpmClient bpmClient) {
+	void setupSecureSFTP() {
 		String resourceDir = getClass().getResource(TEST_FILE_NAME).getPath();
 		resourceDir = Paths.get(resourceDir).getParent().toString();
 		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "", "true");
 		// Set base local directory to resource directory where test files are stored
 		setVar(TEST_SFTP_SERVER_NAME, "baseLocalDir", resourceDir);
-		sftpClient = initSftpClient(bpmClient);
 	}
 
 	private SftpClientService initSftpClient(BpmClient bpmClient) {
@@ -44,7 +42,8 @@ class SftpClientServiceValidationTest extends BaseTest {
 	}
 
 	@Test
-	void testGetFileDataWithValidPath() {
+	void testGetFileDataWithValidPath(BpmClient bpmClient) {
+		SftpClientService sftpClient = initSftpClient(bpmClient);
 		assertDoesNotThrow(() -> {
 			sftpClient.getFileData("validfile.txt");
 		});
@@ -52,7 +51,8 @@ class SftpClientServiceValidationTest extends BaseTest {
 	}
 
 	@Test
-	void testGetFileDataWithInvalidPath() {
+	void testGetFileDataWithInvalidPath(BpmClient bpmClient) {
+		SftpClientService sftpClient = initSftpClient(bpmClient);
 		assertThrows(SecurityException.class, () -> {
 			sftpClient.getFileData("../../../etc/passwd");
 		});
@@ -60,7 +60,8 @@ class SftpClientServiceValidationTest extends BaseTest {
 	}
 
 	@Test
-	void testUploadFileWithValidLocalPath() throws Exception {
+	void testUploadFileWithValidLocalPath(BpmClient bpmClient) throws Exception {
+		SftpClientService sftpClient = initSftpClient(bpmClient);
 		String filePath = getClass().getResource(TEST_FILE_NAME).getPath();
 		assertDoesNotThrow(() -> {
 			sftpClient.uploadFile(filePath, "remote.txt");
@@ -69,7 +70,7 @@ class SftpClientServiceValidationTest extends BaseTest {
 	}
 
 	@Test
-	void testUploadFileWithInvalidLocalPath() {
+	void testUploadFileWithInvalidLocalPath(BpmClient bpmClient) {
 		SftpClientService sftpClient = initSftpClient(bpmClient);
 		assertThrows(SecurityException.class, () -> {
 			sftpClient.uploadFile("../../../etc/passwd", "remote.txt");
