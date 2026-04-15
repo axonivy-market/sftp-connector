@@ -14,7 +14,6 @@ import ch.ivyteam.ivy.bpm.engine.client.BpmClient;
 import ch.ivyteam.ivy.bpm.engine.client.element.BpmElement;
 import ch.ivyteam.ivy.bpm.engine.client.sub.SubProcessCallResult;
 import ch.ivyteam.ivy.bpm.exec.client.IvyProcessTest;
-import ch.ivyteam.ivy.environment.Ivy;
 
 /**
  * Test class for path validation in SftpClientService.
@@ -28,7 +27,7 @@ class SftpClientServiceValidationTest extends BaseTest {
 		String resourceDir = getClass().getResource(TEST_FILE_NAME).getPath();
 		resourceDir = Paths.get(resourceDir).getParent().toString();
 		setVarForSFTPName(TEST_SFTP_SERVER_NAME, "usr", "password", "pwd", "", "");
-		// Set base local directory to resource directory where test files are stored
+		setVar(TEST_SFTP_SERVER_NAME, "enforcePathRestrictions", "true");
 		setVar(TEST_SFTP_SERVER_NAME, "baseLocalDir", resourceDir);
 	}
 
