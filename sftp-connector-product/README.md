@@ -86,6 +86,9 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
 
                  # The username to the SFTP server
                  username: 'usr'
+                 baseLocalDir: '/home/user/sftp/local'
+                 enforcePathRestrictions: 'true'
+                 strictHostKeyChecking: 'yes'
 
    ```
 
@@ -123,6 +126,9 @@ Put this variable block into your project. At least `host`, `auth`, `username` a
                  
                  # The ssh key passphrase
                  sshPassphraseSecret: 'Your ssh key passphrase'
+                 baseLocalDir: '/home/user/sftp/local'
+                 enforcePathRestrictions: 'true'
+                 strictHostKeyChecking: 'yes'
    ```
    \* the private key is in pair of the public key put in step 1
 
