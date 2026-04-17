@@ -24,6 +24,8 @@ import com.jcraft.jsch.SftpException;
 import ch.ivyteam.ivy.environment.Ivy;
 
 import static com.axonivy.connector.sftp.enums.AuthMethod.PASSWORD;
+import static com.axonivy.connector.sftp.constants.IvyVariableNames.*;
+
 /**
  * Service class for file transfer to/from the SFTP server. The service class is
  * used to decouple the SFTP implementation.
@@ -39,16 +41,6 @@ public class SftpClientService implements AutoCloseable {
 	private static final String CURRENT_DIR_REFERENCE = ".";
 	private static final String ABSOLUTE_PATH_PREFIX = "/";
 	private static final String WINDOWS_PATH_SEPARATOR = "\\";
-	private static final String BASE_LOCAL_DIR_VAR = "baseLocalDir";
-	private static final String ENFORCE_PATH_RESTRICTIONS_VAR = "enforcePathRestrictions";
-	private static final String SFTP_VAR = "com.axonivy.connector.sftp.server";
-	private static final String HOST_VAR = "host";
-	private static final String PORT_VAR = "port";
-	private static final String SECRET_SSHPASSPHRASE_VAR = "sshPassphraseSecret";
-	private static final String SSHKEY_FILEPATH_VAR = "sshkeyFilePath";
-	private static final String AUTH_VAR = "auth";
-	private static final String PASSWORD_VAR = "password";
-	private static final String USERNAME_VAR = "username";
 
 	/**
 	 * A Session represents a connection to an SSH server.
@@ -78,11 +70,16 @@ public class SftpClientService implements AutoCloseable {
 		String auth = getVar(sftpName, AUTH_VAR);
 		String sshKeyFilePath = getVar(sftpName, SSHKEY_FILEPATH_VAR);
 		String secretSSHpassphrase = getVar(sftpName, SECRET_SSHPASSPHRASE_VAR);
-		String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);		
+		String strictHostKeyChecking = getVar(sftpName, STRICT_HOST_KEY_CHECKING_VAR);
 		String enforcePathRestrictionsString = getVar(sftpName, ENFORCE_PATH_RESTRICTIONS_VAR);
-		// Initialize base directory with default if not configured
-		baseLocalDir = Paths.get(baseLocalDirStr);
 		enforcePathRestrictions = Boolean.parseBoolean(enforcePathRestrictionsString);
+		if (enforcePathRestrictions) {
+			String baseLocalDirStr = getVar(sftpName, BASE_LOCAL_DIR_VAR);
+			if (StringUtils.isEmpty(baseLocalDirStr)) {
+				throw new IOException("Security validation is enabled (enforcePathRestrictions=true) but baseLocalDir is not configured. ");
+			}
+			baseLocalDir = Paths.get(baseLocalDirStr);
+		}
 		int port = 22;
 		try {
 			port = Integer.parseInt(portRaw);
@@ -103,6 +100,7 @@ public class SftpClientService implements AutoCloseable {
 				session.setConfig("PreferredAuthentications", "publickey");
 				jsch.addIdentity(null, sshKeyBytes, null, secretSSHpassphrase.getBytes());
 			}
+			session.setConfig("StrictHostKeyChecking", strictHostKeyChecking);
 			// 10 seconds session timeout
 			session.connect(SESSION_TIMEOUT);
 			
