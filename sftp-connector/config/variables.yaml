@@ -44,3 +44,8 @@ Variables:
               # untrusted or dynamic input.
               # Default: true
               enforcePathRestrictions: "true"
+              # SSH Host Key Verification (SECURITY CRITICAL)
+              # "yes" = Verify server's host key against known_hosts (RECOMMENDED for production)
+              # "no"  = Accept any host key (vulnerable to man-in-the-middle attacks)
+              # Set to "yes" and configure a known_hosts file for secure deployments
+              strictHostKeyChecking: yes
