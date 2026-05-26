@@ -1,46 +1,40 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/data-class/12.0.0/data-class.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
   "simpleName" : "SftpClientDemoData",
   "namespace" : "com.axonivy.connector.sftp.demo.SftpClientDemo",
-  "isBusinessCaseData" : false,
   "fields" : [ {
-    "name" : "sftpServerName",
-    "type" : "String",
-    "modifiers" : [ "PERSISTENT" ]
+    "name" : "sftpServerName"
   }, {
-    "name" : "clientHost",
-    "type" : "String",
-    "modifiers" : [ "PERSISTENT" ]
+    "name" : "clientHost"
   }, {
     "name" : "clientPort",
-    "type" : "Number",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "Number"
   }, {
-    "name" : "clientUsername",
-    "type" : "String",
-    "modifiers" : [ "PERSISTENT" ]
+    "name" : "clientUsername"
   }, {
     "name" : "fileToDownload",
-    "type" : "com.axonivy.connector.sftp.service.SftpClientService.FileData"
+    "type" : "com.axonivy.connector.sftp.service.SftpClientService.FileData",
+    "modifiers" : [ ]
   }, {
     "name" : "isFileUploaded",
-    "type" : "Boolean",
-    "modifiers" : [ "PERSISTENT" ]
+    "type" : "Boolean"
   }, {
     "name" : "listRemoteFiles",
-    "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>"
+    "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>",
+    "modifiers" : [ ]
   }, {
-    "name" : "remoteFileName",
-    "type" : "String",
-    "modifiers" : [ "PERSISTENT" ]
+    "name" : "remoteFileName"
   }, {
     "name" : "streamedContent",
-    "type" : "org.primefaces.model.StreamedContent"
+    "type" : "org.primefaces.model.StreamedContent",
+    "modifiers" : [ ]
   }, {
     "name" : "toFile",
-    "type" : "java.io.File"
+    "type" : "java.io.File",
+    "modifiers" : [ ]
   }, {
     "name" : "uploadedFile",
-    "type" : "org.primefaces.model.file.UploadedFile"
+    "type" : "org.primefaces.model.file.UploadedFile",
+    "modifiers" : [ ]
   } ]
 }
