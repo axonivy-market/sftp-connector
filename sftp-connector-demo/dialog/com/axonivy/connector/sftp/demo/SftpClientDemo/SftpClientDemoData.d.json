@@ -3,27 +3,33 @@
   "simpleName" : "SftpClientDemoData",
   "namespace" : "com.axonivy.connector.sftp.demo.SftpClientDemo",
   "fields" : [ {
-    "name" : "sftpServerName"
+    "name" : "sftpServerName",
+    "modifiers" : [ ]
   }, {
-    "name" : "clientHost"
+    "name" : "clientHost",
+    "modifiers" : [ ]
   }, {
     "name" : "clientPort",
-    "type" : "Number"
+    "type" : "Number",
+    "modifiers" : [ ]
   }, {
-    "name" : "clientUsername"
+    "name" : "clientUsername",
+    "modifiers" : [ ]
   }, {
     "name" : "fileToDownload",
     "type" : "com.axonivy.connector.sftp.service.SftpClientService.FileData",
     "modifiers" : [ ]
   }, {
     "name" : "isFileUploaded",
-    "type" : "Boolean"
+    "type" : "Boolean",
+    "modifiers" : [ ]
   }, {
     "name" : "listRemoteFiles",
     "type" : "java.util.List<com.axonivy.connector.sftp.service.SftpClientService.FileData>",
     "modifiers" : [ ]
   }, {
-    "name" : "remoteFileName"
+    "name" : "remoteFileName",
+    "modifiers" : [ ]
   }, {
     "name" : "streamedContent",
     "type" : "org.primefaces.model.StreamedContent",
